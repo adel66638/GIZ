@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GIZ — منصة الربح الذكي</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@300;400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#E8A020;--gold2:#FFB84D;--gold-bg:rgba(232,160,32,.09);
+  --bg:#F4F6FA;--sidebar-bg:#1A1D2E;--sidebar-w:220px;
+  --card:#fff;--txt:#1A1D2E;--txt2:#7B8499;--txt3:#B0B8CC;
+  --green:#17B26A;--green-bg:rgba(23,178,106,.1);
+  --red:#F04438;--red-bg:rgba(240,68,56,.1);
+  --blue:#3B82F6;--blue-bg:rgba(59,130,246,.1);
+  --border:#E8EBF2;--border2:rgba(255,255,255,.07);
+  --r:10px;--shadow:0 1px 4px rgba(0,0,0,.07);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;}
+
+/* ===================== SCREENS ===================== */
+.screen{display:none;min-height:100vh;}
+.screen.active{display:block;}
+.screen.flex-screen{display:none;min-height:100vh;}
+.screen.flex-screen.active{display:flex;}
+
+/* ===================== LANDING ===================== */
+#screen-landing{background:#0D0F1A;color:#fff;}
+
+/* Landing Navbar */
+.ln-nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(13,15,26,.92);backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(255,255,255,.06);
+  padding:.9rem 5%;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.ln-logo{display:flex;align-items:center;gap:.6rem;}
+.ln-logo-mark{width:36px;height:36px;background:var(--gold);border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:'Tajawal',sans-serif;font-size:1.1rem;font-weight:900;color:#fff;}
+.ln-logo-txt{font-family:'Tajawal',sans-serif;font-size:1.2rem;font-weight:900;color:#fff;}
+.ln-logo-sub{font-size:.52rem;color:rgba(255,255,255,.35);display:block;margin-top:-3px;}
+.ln-links{display:flex;align-items:center;gap:1.8rem;}
+.ln-links a{color:rgba(255,255,255,.6);text-decoration:none;font-size:.82rem;font-weight:600;transition:color .2s;cursor:pointer;}
+.ln-links a:hover{color:#fff;}
+.ln-btns{display:flex;gap:.6rem;}
+.btn-ln-login{padding:7px 18px;border:1px solid rgba(255,255,255,.18);border-radius:8px;background:transparent;color:#fff;font-family:'Cairo',sans-serif;font-size:.8rem;font-weight:700;cursor:pointer;transition:all .2s;}
+.btn-ln-login:hover{border-color:rgba(255,255,255,.4);background:rgba(255,255,255,.05);}
+.btn-ln-reg{padding:7px 18px;border:none;border-radius:8px;background:var(--gold);color:#fff;font-family:'Cairo',sans-serif;font-size:.8rem;font-weight:700;cursor:pointer;transition:all .2s;}
+.btn-ln-reg:hover{background:var(--gold2);}
+
+/* Hero */
+.ln-hero{
+  min-height:88vh;display:flex;align-items:center;justify-content:center;
+  text-align:center;padding:3rem 5%;position:relative;overflow:hidden;
+}
+.ln-hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 800px 600px at 50% 0%,rgba(232,160,32,.08) 0%,transparent 65%),
+  radial-gradient(ellipse 600px 500px at 80% 80%,rgba(59,130,246,.05) 0%,transparent 65%);
+  pointer-events:none;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(232,160,32,.1);border:1px solid rgba(232,160,32,.2);
+  border-radius:20px;padding:5px 14px;font-size:.72rem;color:var(--gold);font-weight:700;
+  margin-bottom:1.4rem;
+}
+.hero-title{font-family:'Tajawal',sans-serif;font-size:3rem;font-weight:900;line-height:1.2;margin-bottom:1rem;}
+.hero-title span{color:var(--gold);}
+.hero-sub{font-size:.92rem;color:rgba(255,255,255,.5);max-width:520px;margin:0 auto 2rem;line-height:1.7;}
+.hero-btns{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap;margin-bottom:2.5rem;}
+.btn-hero-main{padding:13px 30px;background:var(--gold);color:#fff;border:none;border-radius:10px;font-family:'Cairo',sans-serif;font-size:.95rem;font-weight:900;cursor:pointer;transition:all .22s;}
+.btn-hero-main:hover{background:var(--gold2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(232,160,32,.35);}
+.btn-hero-sec{padding:13px 30px;background:rgba(255,255,255,.06);color:#fff;border:1px solid rgba(255,255,255,.12);border-radius:10px;font-family:'Cairo',sans-serif;font-size:.95rem;font-weight:700;cursor:pointer;transition:all .22s;}
+.btn-hero-sec:hover{background:rgba(255,255,255,.1);}
+.hero-stats{display:flex;gap:2.5rem;justify-content:center;flex-wrap:wrap;}
+.hs-item{text-align:center;}
+.hs-num{font-family:'Tajawal',sans-serif;font-size:1.8rem;font-weight:900;color:var(--gold);}
+.hs-lbl{font-size:.7rem;color:rgba(255,255,255,.4);}
+
+/* Features */
+.ln-features{background:#0A0C17;padding:4rem 5%;}
+.ln-sec-title{text-align:center;font-family:'Tajawal',sans-serif;font-size:1.6rem;font-weight:900;margin-bottom:.5rem;}
+.ln-sec-sub{text-align:center;font-size:.82rem;color:rgba(255,255,255,.4);margin-bottom:2.5rem;}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;max-width:900px;margin:0 auto;}
+.feat-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);padding:1.4rem;transition:all .2s;}
+.feat-card:hover{border-color:rgba(232,160,32,.25);background:rgba(232,160,32,.03);}
+.feat-ico{font-size:1.8rem;margin-bottom:.8rem;}
+.feat-name{font-family:'Tajawal',sans-serif;font-size:.95rem;font-weight:900;margin-bottom:.4rem;}
+.feat-desc{font-size:.74rem;color:rgba(255,255,255,.4);line-height:1.6;}
+
+/* How it works */
+.ln-how{padding:4rem 5%;background:#0D0F1A;}
+.steps-row{display:flex;gap:0;max-width:800px;margin:0 auto;position:relative;}
+.steps-row::before{content:'';position:absolute;top:28px;right:14%;left:14%;height:1px;background:linear-gradient(90deg,transparent,rgba(232,160,32,.3),transparent);}
+.step{flex:1;text-align:center;padding:0 .8rem;}
+.step-num{width:52px;height:52px;border-radius:50%;border:2px solid var(--gold);background:#0D0F1A;display:flex;align-items:center;justify-content:center;font-family:'Tajawal',sans-serif;font-size:1.1rem;font-weight:900;color:var(--gold);margin:0 auto 1rem;}
+.step-name{font-size:.82rem;font-weight:700;margin-bottom:.3rem;}
+.step-desc{font-size:.7rem;color:rgba(255,255,255,.4);line-height:1.55;}
+
+/* Earnings table */
+.ln-earnings{background:#0A0C17;padding:4rem 5%;}
+.earn-table-wrap{max-width:700px;margin:0 auto;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);overflow:hidden;}
+.earn-table{width:100%;border-collapse:collapse;}
+.earn-table th{background:rgba(232,160,32,.08);font-size:.74rem;color:rgba(255,255,255,.6);padding:.7rem 1rem;text-align:right;font-weight:700;border-bottom:1px solid rgba(255,255,255,.06);}
+.earn-table td{font-size:.78rem;padding:.7rem 1rem;border-bottom:1px solid rgba(255,255,255,.05);}
+.earn-table tr:last-child td{border-bottom:none;}
+.earn-table tr:hover td{background:rgba(255,255,255,.02);}
+.earn-amt{color:var(--green);font-weight:900;}
+
+/* CTA */
+.ln-cta{padding:4rem 5%;text-align:center;background:#0D0F1A;}
+.cta-box{max-width:540px;margin:0 auto;background:linear-gradient(135deg,rgba(232,160,32,.08),rgba(232,160,32,.02));border:1px solid rgba(232,160,32,.15);border-radius:16px;padding:2.5rem;}
+.cta-title{font-family:'Tajawal',sans-serif;font-size:1.6rem;font-weight:900;margin-bottom:.6rem;}
+.cta-sub{font-size:.8rem;color:rgba(255,255,255,.45);margin-bottom:1.6rem;line-height:1.65;}
+
+/* Footer */
+.ln-footer{background:#080A14;border-top:1px solid rgba(255,255,255,.05);padding:1.4rem 5%;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.8rem;}
+.lf-txt{font-size:.72rem;color:rgba(255,255,255,.3);}
+.lf-links{display:flex;gap:1.2rem;}
+.lf-links a{font-size:.72rem;color:rgba(255,255,255,.3);text-decoration:none;cursor:pointer;}
+.lf-links a:hover{color:rgba(255,255,255,.6);}
+
+/* ===================== AUTH SCREEN ===================== */
+#screen-auth{
+  background:#0D0F1A;
+  align-items:center;justify-content:center;
+  min-height:100vh;padding:2rem;
+}
+.auth-wrap{width:100%;max-width:420px;}
+.auth-logo{text-align:center;margin-bottom:1.8rem;}
+.auth-logo-mark{width:50px;height:50px;background:var(--gold);border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:'Tajawal',sans-serif;font-size:1.4rem;font-weight:900;color:#fff;margin:0 auto .6rem;}
+.auth-logo-txt{font-family:'Tajawal',sans-serif;font-size:1.3rem;font-weight:900;color:#fff;}
+.auth-logo-sub{font-size:.68rem;color:rgba(255,255,255,.35);}
+.auth-tabs{display:flex;background:rgba(255,255,255,.05);border-radius:10px;padding:4px;margin-bottom:1.4rem;}
+.auth-tab{flex:1;padding:9px;border:none;background:transparent;color:rgba(255,255,255,.45);font-family:'Cairo',sans-serif;font-size:.82rem;font-weight:700;cursor:pointer;border-radius:8px;transition:all .2s;}
+.auth-tab.active{background:var(--gold);color:#fff;}
+.auth-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:1.8rem;}
+.auth-form-title{font-family:'Tajawal',sans-serif;font-size:1.1rem;font-weight:900;color:#fff;margin-bottom:.3rem;}
+.auth-form-sub{font-size:.72rem;color:rgba(255,255,255,.4);margin-bottom:1.3rem;}
+.af-group{margin-bottom:1rem;}
+.af-label{font-size:.72rem;color:rgba(255,255,255,.5);font-weight:600;display:block;margin-bottom:.35rem;}
+.af-input{
+  width:100%;padding:10px 13px;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+  border-radius:9px;color:#fff;font-family:'Cairo',sans-serif;font-size:.85rem;
+  outline:none;transition:border-color .2s;
+}
+.af-input:focus{border-color:var(--gold);}
+.af-input::placeholder{color:rgba(255,255,255,.25);font-size:.78rem;}
+.af-hint{font-size:.65rem;color:rgba(255,255,255,.3);margin-top:.25rem;}
+.af-ref-box{
+  background:rgba(232,160,32,.07);border:1px solid rgba(232,160,32,.2);
+  border-radius:9px;padding:.8rem;display:flex;align-items:center;gap:.7rem;margin-bottom:1rem;
+}
+.af-ref-ico{font-size:1.2rem;}
+.af-ref-txt{font-size:.72rem;color:rgba(255,255,255,.55);line-height:1.5;}
+.af-ref-txt strong{color:var(--gold);}
+.btn-auth{
+  width:100%;padding:12px;background:var(--gold);color:#fff;border:none;
+  border-radius:10px;font-family:'Cairo',sans-serif;font-size:.9rem;font-weight:900;
+  cursor:pointer;transition:all .2s;margin-top:.4rem;
+}
+.btn-auth:hover{background:var(--gold2);}
+.auth-back{
+  text-align:center;margin-top:1rem;font-size:.72rem;color:rgba(255,255,255,.35);cursor:pointer;
+}
+.auth-back span{color:var(--gold);font-weight:700;}
+.auth-back span:hover{text-decoration:underline;}
+.auth-divider{display:flex;align-items:center;gap:.7rem;margin:.9rem 0;color:rgba(255,255,255,.2);font-size:.7rem;}
+.auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.08);}
+
+/* ===================== APP LAYOUT ===================== */
+#screen-app{display:none;}
+#screen-app.active{display:flex;min-height:100vh;}
+
+/* ===== TASK BAR (top strip) ===== */
+.taskbar{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  background:#1A1D2E;
+  border-bottom:1px solid rgba(255,255,255,.06);
+  height:36px;
+  display:flex;align-items:center;
+  padding:0 1rem;
+  gap:1.2rem;
+}
+.tb-item{
+  display:flex;align-items:center;gap:5px;
+  font-size:.68rem;color:rgba(255,255,255,.45);
+  cursor:pointer;transition:color .15s;white-space:nowrap;
+}
+.tb-item:hover{color:rgba(255,255,255,.85);}
+.tb-item.active-tb{color:var(--gold);}
+.tb-item .tb-dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;}
+.tb-sep{width:1px;height:16px;background:rgba(255,255,255,.08);}
+.tb-right{margin-right:auto;display:flex;align-items:center;gap:1rem;}
+.tb-bal{font-size:.68rem;color:var(--gold);font-weight:700;}
+.tb-user-pill{
+  display:flex;align-items:center;gap:5px;
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);
+  border-radius:20px;padding:2px 8px 2px 5px;cursor:pointer;
+}
+.tb-av{width:20px;height:20px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:.55rem;font-weight:900;color:#fff;}
+.tb-uname{font-size:.65rem;color:rgba(255,255,255,.65);font-weight:600;}
+.btn-tb-logout{padding:3px 10px;background:rgba(240,68,56,.15);border:1px solid rgba(240,68,56,.2);border-radius:6px;color:var(--red);font-family:'Cairo',sans-serif;font-size:.62rem;font-weight:700;cursor:pointer;}
+
+/* ===== SIDEBAR ===== */
+.sidebar{
+  width:var(--sidebar-w);min-height:100vh;padding-top:36px;
+  background:var(--sidebar-bg);
+  position:fixed;top:0;right:0;
+  display:flex;flex-direction:column;z-index:50;
+}
+.sb-logo{padding:1rem;border-bottom:1px solid var(--border2);display:flex;align-items:center;gap:.6rem;}
+.logo-mark{width:32px;height:32px;background:var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Tajawal',sans-serif;font-size:.95rem;font-weight:900;color:#fff;flex-shrink:0;}
+.logo-text{font-family:'Tajawal',sans-serif;font-size:1rem;font-weight:900;color:#fff;}
+.logo-sub{font-size:.5rem;color:rgba(255,255,255,.3);display:block;margin-top:-2px;}
+.sb-user{padding:.8rem 1rem;border-bottom:1px solid var(--border2);display:flex;align-items:center;gap:.65rem;}
+.sb-av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#C47A10);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:900;color:#fff;flex-shrink:0;}
+.sb-uname{font-size:.76rem;font-weight:700;color:#fff;}
+.sb-level{font-size:.6rem;color:rgba(255,255,255,.38);margin-top:1px;}
+.sb-level b{color:var(--gold);}
+.sb-nav{flex:1;padding:.45rem 0;overflow-y:auto;}
+.nav-sec{font-size:.54rem;color:rgba(255,255,255,.22);padding:.45rem .85rem .2rem;letter-spacing:2px;font-weight:700;text-transform:uppercase;}
+.nav-item{display:flex;align-items:center;gap:.6rem;padding:.58rem .85rem;color:rgba(255,255,255,.48);text-decoration:none;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .15s;border:none;background:none;width:100%;text-align:right;position:relative;}
+.nav-item:hover{color:rgba(255,255,255,.88);background:rgba(255,255,255,.03);}
+.nav-item.active{color:#fff;background:rgba(255,255,255,.07);}
+.nav-item.active::before{content:'';position:absolute;right:0;top:50%;transform:translateY(-50%);width:3px;height:20px;background:var(--gold);border-radius:2px 0 0 2px;}
+.nav-ico{font-size:.8rem;width:16px;text-align:center;flex-shrink:0;}
+.nav-badge{margin-right:auto;background:var(--red);color:#fff;font-size:.52rem;padding:1px 6px;border-radius:20px;font-weight:700;}
+.sb-bal{margin:.65rem .75rem .75rem;background:rgba(255,255,255,.04);border:1px solid var(--border2);border-radius:var(--r);padding:.8rem;}
+.sbb-lbl{font-size:.58rem;color:rgba(255,255,255,.3);margin-bottom:.25rem;}
+.sbb-val{font-family:'Tajawal',sans-serif;font-size:1.3rem;font-weight:900;color:var(--gold);line-height:1;}
+.sbb-usd{font-size:.62rem;color:rgba(255,255,255,.3);margin-top:.15rem;}
+.btn-w{width:100%;padding:8px;background:var(--gold);color:#fff;border:none;border-radius:7px;font-family:'Cairo',sans-serif;font-size:.75rem;font-weight:700;cursor:pointer;transition:background .2s;margin-top:.6rem;}
+.btn-w:hover{background:var(--gold2);}
+
+/* ===== MAIN ===== */
+.main{margin-right:var(--sidebar-w);flex:1;min-height:100vh;padding-top:36px;display:flex;flex-direction:column;}
+.topbar{background:var(--card);border-bottom:1px solid var(--border);padding:.7rem 1.5rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:36px;z-index:40;}
+.tp-title{font-family:'Tajawal',sans-serif;font-size:.92rem;font-weight:900;}
+.tp-right{display:flex;align-items:center;gap:.75rem;}
+.live-pill{display:flex;align-items:center;gap:4px;font-size:.68rem;color:var(--green);background:var(--green-bg);padding:3px 9px;border-radius:20px;font-weight:700;}
+.live-dot{width:5px;height:5px;background:var(--green);border-radius:50%;animation:pulse 2s infinite;}
+.notif-btn{width:29px;height:29px;background:var(--bg);border:1px solid var(--border);border-radius:7px;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;font-size:.75rem;}
+.notif-dot{position:absolute;top:4px;right:4px;width:5px;height:5px;background:var(--red);border-radius:50%;}
+.content{flex:1;padding:1.3rem 1.5rem;}
+
+/* Pages */
+.page{display:none;}
+.page.active{display:block;animation:fadeIn .22s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:translateY(0);}}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.35;}}
+
+.sec-title{font-family:'Tajawal',sans-serif;font-size:.83rem;font-weight:900;color:var(--txt);margin-bottom:.8rem;display:flex;align-items:center;gap:.5rem;}
+.sec-title::after{content:'';flex:1;height:1px;background:var(--border);}
+
+/* Stat Cards */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin-bottom:1.3rem;}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:.95rem;box-shadow:var(--shadow);}
+.sc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:.55rem;}
+.sc-ico{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.82rem;}
+.sc-badge{font-size:.6rem;padding:2px 6px;border-radius:20px;font-weight:700;}
+.sc-badge.up{background:var(--green-bg);color:var(--green);}
+.sc-badge.dn{background:var(--red-bg);color:var(--red);}
+.sc-val{font-family:'Tajawal',sans-serif;font-size:1.4rem;font-weight:900;color:var(--txt);}
+.sc-label{font-size:.65rem;color:var(--txt2);margin-top:1px;}
+
+/* Referral Banner */
+.ref-banner{background:linear-gradient(135deg,#1A1D2E,#252940);border-radius:var(--r);padding:1rem 1.3rem;margin-bottom:1.3rem;display:flex;align-items:center;gap:1.1rem;}
+.ref-icon-wrap{width:40px;height:40px;border-radius:9px;background:var(--gold-bg);border:1px solid rgba(232,160,32,.25);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+.ref-banner-info{flex:1;}
+.ref-banner-title{font-family:'Tajawal',sans-serif;font-size:.88rem;font-weight:900;color:#fff;margin-bottom:.2rem;}
+.ref-banner-sub{font-size:.65rem;color:rgba(255,255,255,.42);}
+.ref-inp-wrap{display:flex;gap:.45rem;align-items:center;}
+.ref-inp-sm{padding:7px 11px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:7px;color:#fff;font-family:'Cairo',sans-serif;font-size:.72rem;outline:none;width:200px;}
+.btn-copy-sm{padding:7px 13px;background:var(--gold);color:#fff;border:none;border-radius:7px;font-family:'Cairo',sans-serif;font-size:.72rem;font-weight:700;cursor:pointer;white-space:nowrap;}
+.btn-copy-sm:hover{background:var(--gold2);}
+.ref-earn-pill{background:var(--green-bg);border:1px solid rgba(23,178,106,.18);border-radius:8px;padding:.5rem .75rem;text-align:center;flex-shrink:0;}
+.rep-val{font-family:'Tajawal',sans-serif;font-size:.95rem;font-weight:900;color:var(--green);}
+.rep-lbl{font-size:.58rem;color:var(--txt2);}
+
+/* Surf Card */
+.surf-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1rem;margin-bottom:1.3rem;box-shadow:var(--shadow);display:flex;align-items:center;gap:1.1rem;}
+.surf-timer-wrap{width:52px;height:52px;border-radius:50%;border:2px solid var(--gold);display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;}
+.surf-num{font-family:'Tajawal',sans-serif;font-size:1.2rem;font-weight:900;color:var(--gold);line-height:1;}
+.surf-lbl{font-size:.46rem;color:var(--txt2);}
+.surf-info{flex:1;}
+.surf-url{font-size:.62rem;color:var(--txt2);margin-bottom:.18rem;display:flex;align-items:center;gap:3px;}
+.surf-site-name{font-size:.82rem;font-weight:700;margin-bottom:.18rem;}
+.surf-site-desc{font-size:.67rem;color:var(--txt2);}
+.surf-prog{height:4px;background:var(--border);border-radius:2px;overflow:hidden;margin-top:.55rem;}
+.surf-prog-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:2px;animation:sp 30s linear infinite;}
+@keyframes sp{from{width:0}to{width:100%}}
+.surf-right{display:flex;flex-direction:column;gap:.4rem;min-width:115px;}
+.surf-earn{background:var(--green-bg);border:1px solid rgba(23,178,106,.15);border-radius:7px;padding:.5rem;text-align:center;}
+.se-val{font-family:'Tajawal',sans-serif;font-size:1.1rem;font-weight:900;color:var(--green);}
+.se-lbl{font-size:.56rem;color:var(--txt2);}
+.surf-stat{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:.4rem .65rem;display:flex;justify-content:space-between;align-items:center;}
+.surf-stat span{font-size:.62rem;color:var(--txt2);}
+.surf-stat strong{font-size:.66rem;}
+
+/* Tasks */
+.tasks-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:1.3rem;}
+.task-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:.85rem;transition:all .18s;cursor:pointer;box-shadow:var(--shadow);}
+.task-card:hover{border-color:var(--gold);box-shadow:0 3px 10px rgba(232,160,32,.1);}
+.task-card.done{opacity:.5;pointer-events:none;}
+.tc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:.55rem;}
+.tc-ico{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.95rem;}
+.tc-reward{font-size:.82rem;font-weight:900;color:var(--green);}
+.tc-name{font-size:.78rem;font-weight:700;margin-bottom:.18rem;}
+.tc-desc{font-size:.65rem;color:var(--txt2);line-height:1.5;margin-bottom:.65rem;}
+.tc-footer{display:flex;align-items:center;justify-content:space-between;}
+.tc-time{font-size:.62rem;color:var(--txt2);}
+.btn-do{padding:4px 11px;background:var(--gold);color:#fff;border:none;border-radius:6px;font-family:'Cairo',sans-serif;font-size:.67rem;font-weight:700;cursor:pointer;transition:background .2s;}
+.btn-do:hover{background:var(--gold2);}
+.btn-done{padding:4px 11px;background:var(--green-bg);border:1px solid rgba(23,178,106,.2);color:var(--green);border-radius:6px;font-size:.67rem;font-weight:700;}
+
+/* Level card */
+.level-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1rem;margin-bottom:1.3rem;box-shadow:var(--shadow);display:grid;grid-template-columns:1fr 165px;gap:1.1rem;align-items:center;}
+.lc-head{display:flex;align-items:center;gap:.65rem;margin-bottom:.8rem;}
+.lc-ico{font-size:1.7rem;}
+.lc-name{font-family:'Tajawal',sans-serif;font-size:.95rem;font-weight:900;color:var(--gold);}
+.lc-sub{font-size:.63rem;color:var(--txt2);}
+.prog-row{margin-bottom:.5rem;}
+.pr-top{display:flex;justify-content:space-between;font-size:.63rem;color:var(--txt2);margin-bottom:.28rem;}
+.pr-top strong{color:var(--txt);}
+.pr-bar{height:5px;background:var(--border);border-radius:3px;overflow:hidden;}
+.pr-fill{height:100%;border-radius:3px;transition:width 1s;}
+.pr-gold{background:linear-gradient(90deg,var(--gold),var(--gold2));}
+.pr-blue{background:linear-gradient(90deg,var(--blue),#818CF8);}
+.lc-right{display:flex;flex-direction:column;gap:.4rem;}
+.next-box{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:.65rem;text-align:center;}
+.nb-lbl{font-size:.56rem;color:var(--txt2);}
+.nb-ico{font-size:1.2rem;margin:.12rem 0;}
+.nb-name{font-size:.75rem;font-weight:700;}
+.nb-req{font-size:.58rem;color:var(--txt2);margin-top:.12rem;}
+.btn-up{padding:6px;border-radius:7px;font-family:'Cairo',sans-serif;font-size:.67rem;font-weight:700;cursor:pointer;transition:all .2s;text-align:center;border:1px solid var(--border);background:transparent;color:var(--txt2);width:100%;}
+.btn-up:hover{border-color:var(--gold);color:var(--gold);}
+.btn-up.buy{background:var(--gold);color:#fff;border:none;}
+.btn-up.buy:hover{background:var(--gold2);}
+
+/* Ref page */
+.ref-big-card{background:linear-gradient(135deg,#1A1D2E,#252940);border-radius:var(--r);padding:1.3rem;margin-bottom:1.3rem;}
+.rbc-head{display:flex;align-items:center;gap:.75rem;margin-bottom:.9rem;}
+.rbc-ico{font-size:1.5rem;}
+.rbc-title{font-family:'Tajawal',sans-serif;font-size:.95rem;font-weight:900;color:#fff;}
+.rbc-sub{font-size:.65rem;color:rgba(255,255,255,.38);}
+.ref-inp-row{display:flex;gap:.45rem;margin-bottom:.65rem;}
+.ref-inp-full{flex:1;padding:9px 11px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:#fff;font-family:'Cairo',sans-serif;font-size:.78rem;outline:none;}
+.ref-levels-row{display:grid;grid-template-columns:repeat(3,1fr);gap:.65rem;margin-bottom:1.2rem;}
+.ref-lv-box{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:.85rem;text-align:center;box-shadow:var(--shadow);}
+.rlb-pct{font-family:'Tajawal',sans-serif;font-size:1.5rem;font-weight:900;color:var(--gold);}
+.rlb-name{font-size:.73rem;font-weight:700;margin:.18rem 0;}
+.rlb-desc{font-size:.65rem;color:var(--txt2);}
+.ref-stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:.65rem;}
+.rstat{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:.85rem;text-align:center;box-shadow:var(--shadow);}
+.rstat-num{font-family:'Tajawal',sans-serif;font-size:1.15rem;font-weight:900;color:var(--gold);}
+.rstat-lbl{font-size:.63rem;color:var(--txt2);margin-top:2px;}
+
+/* Upgrade */
+.upgrade-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.85rem;margin-bottom:1.5rem;}
+.up-card{background:var(--card);border:2px solid var(--border);border-radius:var(--r);padding:1.1rem .85rem;text-align:center;transition:all .22s;position:relative;overflow:hidden;box-shadow:var(--shadow);}
+.up-card:hover{transform:translateY(-3px);box-shadow:0 6px 16px rgba(0,0,0,.08);}
+.up-card.current{border-color:var(--gold);}
+.up-card.next-lv{border-color:rgba(59,130,246,.3);}
+.up-badge-card{position:absolute;top:.65rem;left:.65rem;font-size:.56rem;padding:2px 6px;border-radius:20px;font-weight:700;}
+.current-badge{background:var(--gold-bg);color:var(--gold);border:1px solid rgba(232,160,32,.22);}
+.next-badge{background:var(--blue-bg);color:var(--blue);border:1px solid rgba(59,130,246,.22);}
+.up-ico{font-size:2.2rem;margin-bottom:.45rem;}
+.up-name{font-family:'Tajawal',sans-serif;font-size:.95rem;font-weight:900;margin-bottom:.22rem;}
+.up-perks{list-style:none;text-align:right;margin:.65rem 0;display:flex;flex-direction:column;gap:.22rem;}
+.up-perks li{font-size:.65rem;color:var(--txt2);display:flex;align-items:center;gap:4px;}
+.up-perks li::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0;font-size:.62rem;}
+.up-divider{border:none;border-top:1px solid var(--border);margin:.75rem 0;}
+.up-ways{display:flex;flex-direction:column;gap:.35rem;}
+.up-way{background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:.5rem .65rem;text-align:right;}
+.uw-label{font-size:.56rem;color:var(--txt2);margin-bottom:.12rem;}
+.uw-cond{font-size:.62rem;font-weight:600;}
+.uw-price{font-size:.72rem;font-weight:900;color:var(--gold);}
+.btn-upgrade-now{width:100%;padding:7px;margin-top:.55rem;background:var(--gold);color:#fff;border:none;border-radius:7px;font-family:'Cairo',sans-serif;font-size:.73rem;font-weight:900;cursor:pointer;transition:all .2s;}
+.btn-upgrade-now:hover{background:var(--gold2);}
+.contest-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1rem;box-shadow:var(--shadow);}
+.cc-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:.65rem;}
+.cc-title{font-size:.82rem;font-weight:700;}
+.cc-timer{font-size:.68rem;color:var(--gold);font-weight:600;}
+.contest-list{display:flex;flex-direction:column;gap:.38rem;}
+.contest-row{display:flex;align-items:center;gap:.75rem;padding:.5rem .75rem;background:var(--bg);border:1px solid var(--border);border-radius:8px;}
+.cr-rank{font-family:'Tajawal',sans-serif;font-size:.9rem;font-weight:900;color:var(--gold);min-width:22px;}
+.cr-name{flex:1;font-size:.73rem;font-weight:700;}
+.cr-pts{font-size:.7rem;color:var(--txt2);}
+.cr-prize{font-size:.7rem;font-weight:900;color:var(--green);}
+
+/* Withdraw */
+.withdraw-wrap{max-width:640px;}
+.w-balance-card{background:linear-gradient(135deg,#1A1D2E,#252940);border-radius:var(--r);padding:1.2rem;margin-bottom:1.2rem;display:flex;align-items:center;justify-content:space-between;}
+.wbc-label{font-size:.62rem;color:rgba(255,255,255,.38);margin-bottom:.22rem;}
+.wbc-giz{font-family:'Tajawal',sans-serif;font-size:1.9rem;font-weight:900;color:var(--gold);}
+.wbc-usd{font-size:.78rem;color:rgba(255,255,255,.45);margin-top:.08rem;}
+.wbc-usd strong{color:var(--green);}
+.wbc-right{text-align:left;}
+.wbc-min{font-size:.62rem;color:rgba(255,255,255,.32);}
+.wallet-tabs{display:flex;gap:.38rem;flex-wrap:wrap;margin-bottom:1.1rem;}
+.wtab{padding:6px 10px;background:var(--card);border:1px solid var(--border);border-radius:7px;font-family:'Cairo',sans-serif;font-size:.68rem;font-weight:600;color:var(--txt2);cursor:pointer;transition:all .18s;}
+.wtab:hover{border-color:var(--gold);color:var(--txt);}
+.wtab.active{background:var(--gold-bg);border-color:var(--gold);color:var(--gold);}
+.w-form-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.2rem;margin-bottom:1rem;box-shadow:var(--shadow);}
+.wfc-head{display:flex;align-items:center;gap:.65rem;margin-bottom:1rem;}
+.wfc-logo{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;background:var(--bg);}
+.wfc-name{font-size:.88rem;font-weight:900;}
+.wfc-desc{font-size:.65rem;color:var(--txt2);}
+.ton-addr-box{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:.7rem;margin-bottom:.9rem;display:flex;align-items:center;gap:.65rem;}
+.ton-addr-txt{flex:1;font-size:.64rem;color:var(--txt2);font-family:monospace;word-break:break-all;}
+.ton-ok{background:var(--green-bg);color:var(--green);font-size:.58rem;padding:2px 6px;border-radius:20px;white-space:nowrap;font-weight:700;}
+.wf-row{margin-bottom:.85rem;}
+.wf-label{font-size:.68rem;color:var(--txt2);margin-bottom:.28rem;display:block;font-weight:600;}
+.wf-input{width:100%;padding:9px 11px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--txt);font-family:'Cairo',sans-serif;font-size:.8rem;outline:none;transition:border-color .2s;}
+.wf-input:focus{border-color:var(--gold);}
+.wf-hint{font-size:.61rem;color:var(--txt2);margin-top:.22rem;}
+.wf-hint.warn{color:#F59E0B;}
+.amount-row{display:grid;grid-template-columns:repeat(4,1fr);gap:.45rem;margin-bottom:.55rem;}
+.amount-box{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:.6rem;text-align:center;cursor:pointer;transition:all .18s;}
+.amount-box:hover,.amount-box.sel{border-color:var(--gold);background:var(--gold-bg);}
+.ab-giz{font-family:'Tajawal',sans-serif;font-size:.85rem;font-weight:900;color:var(--gold);}
+.ab-usd{font-size:.6rem;color:var(--txt2);}
+.fee-summary{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:.85rem;margin-bottom:1rem;}
+.fee-row{display:flex;justify-content:space-between;font-size:.73rem;padding:.26rem 0;border-bottom:1px solid var(--border);}
+.fee-row:last-child{border-bottom:none;font-weight:700;font-size:.78rem;}
+.fee-row .lbl{color:var(--txt2);}
+.fee-row .val{color:var(--txt);}
+.fee-row .val.green{color:var(--green);}
+.btn-withdraw-now{width:100%;padding:11px;background:var(--gold);color:#fff;border:none;border-radius:9px;font-family:'Cairo',sans-serif;font-size:.86rem;font-weight:900;cursor:pointer;transition:all .2s;}
+.btn-withdraw-now:hover{background:var(--gold2);}
+.w-history{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);}
+
+/* Table */
+.hist-table{width:100%;border-collapse:collapse;}
+.hist-table th{font-size:.64rem;color:var(--txt2);font-weight:600;padding:.5rem .8rem;text-align:right;border-bottom:1px solid var(--border);background:var(--bg);}
+.hist-table td{font-size:.72rem;padding:.62rem .8rem;border-bottom:1px solid var(--border);}
+.hist-table tr:last-child td{border-bottom:none;}
+.hist-table tr:hover td{background:var(--bg);}
+.badge{display:inline-flex;align-items:center;padding:2px 7px;border-radius:20px;font-size:.6rem;font-weight:700;}
+.badge.g{background:var(--green-bg);color:var(--green);}
+.badge.r{background:var(--red-bg);color:var(--red);}
+.badge.y{background:var(--gold-bg);color:var(--gold);}
+.badge.b{background:var(--blue-bg);color:var(--blue);}
+
+/* Surf levels */
+.surf-levels{display:grid;grid-template-columns:repeat(4,1fr);gap:.65rem;}
+.sl-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:.85rem;text-align:center;box-shadow:var(--shadow);}
+.sl-card.active-lv{border-color:var(--gold);}
+
+/* Modal */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:300;align-items:center;justify-content:center;backdrop-filter:blur(5px);}
+.overlay.open{display:flex;}
+.modal{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.7rem;width:90%;max-width:380px;position:relative;animation:fadeIn .22s ease;box-shadow:0 20px 50px rgba(0,0,0,.15);}
+.modal-close{position:absolute;top:.75rem;left:.75rem;background:none;border:none;color:var(--txt2);font-size:1rem;cursor:pointer;}
+.modal h3{font-family:'Tajawal',sans-serif;font-size:1.05rem;font-weight:900;text-align:center;margin-bottom:1.1rem;}
+.modal-confirm-btn{padding:11px;background:var(--gold);color:#fff;border:none;border-radius:8px;font-family:'Cairo',sans-serif;font-size:.83rem;font-weight:900;cursor:pointer;width:100%;margin-bottom:.4rem;}
+.modal-cancel-btn{padding:9px;background:transparent;color:var(--txt2);border:1px solid var(--border);border-radius:8px;font-family:'Cairo',sans-serif;font-size:.78rem;cursor:pointer;width:100%;}
+
+/* Toast */
+.toast{position:fixed;bottom:1.4rem;left:50%;transform:translateX(-50%) translateY(20px);background:var(--txt);color:#fff;padding:8px 18px;border-radius:50px;font-size:.78rem;font-weight:700;opacity:0;transition:all .3s;z-index:999;white-space:nowrap;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.toast.error{background:var(--red);}
+
+@media(max-width:880px){
+  .sidebar{transform:translateX(100%);}.main{margin-right:0;}
+  .stats-row{grid-template-columns:repeat(2,1fr);}
+  .tasks-grid,.upgrade-grid{grid-template-columns:1fr;}
+  .amount-row{grid-template-columns:repeat(2,1fr);}
+  .ref-banner{flex-direction:column;align-items:flex-start;}
+  .level-card{grid-template-columns:1fr;}
+  .features-grid{grid-template-columns:1fr;}
+  .steps-row{flex-direction:column;}
+  .steps-row::before{display:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- ===================== SCREEN: LANDING ===================== -->
+<div class="screen active" id="screen-landing">
+
+  <!-- Navbar -->
+  <nav class="ln-nav">
+    <div class="ln-logo">
+      <div class="ln-logo-mark">G</div>
+      <div>
+        <div class="ln-logo-txt">GIZ</div>
+        <small class="ln-logo-sub">منصة الربح الذكي</small>
+      </div>
+    </div>
+    <div class="ln-links">
+      <a onclick="scrollTo(0,600)">كيف تعمل؟</a>
+      <a onclick="scrollTo(0,1200)">الأرباح</a>
+      <a onclick="scrollTo(0,1800)">المستويات</a>
+    </div>
+    <div class="ln-btns">
+      <button class="btn-ln-login" onclick="gotoAuth('login')">تسجيل الدخول</button>
+      <button class="btn-ln-reg" onclick="gotoAuth('register')">إنشاء حساب مجاناً</button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="ln-hero">
+    <div>
+      <div class="hero-badge">🔥 أكثر من 120,000 عضو نشط</div>
+      <h1 class="hero-title">اربح من الإنترنت<br>بأسهل الطرق مع <span>GIZ</span></h1>
+      <p class="hero-sub">شاهد إعلانات، أنجز مهام، أحِل أصدقاءك — واكسب GIZ يومياً واسحب أرباحك فوراً إلى محفظتك</p>
+      <div class="hero-btns">
+        <button class="btn-hero-main" onclick="gotoAuth('register')">🚀 ابدأ مجاناً الآن</button>
+        <button class="btn-hero-sec" onclick="gotoAuth('login')">لدي حساب — دخول</button>
+      </div>
+      <div class="hero-stats">
+        <div class="hs-item"><div class="hs-num">120K+</div><div class="hs-lbl">عضو مسجل</div></div>
+        <div class="hs-item"><div class="hs-num">4.2M</div><div class="hs-lbl">GIZ موزعة</div></div>
+        <div class="hs-item"><div class="hs-num">42K$</div><div class="hs-lbl">مدفوعات مكتملة</div></div>
+        <div class="hs-item"><div class="hs-num">24/7</div><div class="hs-lbl">سحب فوري</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="ln-features">
+    <div class="ln-sec-title">🎯 طرق الربح المتاحة</div>
+    <div class="ln-sec-sub">4 مصادر دخل مدمجة في منصة واحدة</div>
+    <div class="features-grid">
+      <div class="feat-card">
+        <div class="feat-ico">🖥️</div>
+        <div class="feat-name">Surf الإعلانات</div>
+        <div class="feat-desc">شاهد مواقع المعلنين 30 ثانية واكسب GIZ فوراً. تصل إلى 500+ GIZ يومياً مع المستوى الماسي.</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-ico">✅</div>
+        <div class="feat-name">إنجاز المهام</div>
+        <div class="feat-desc">مهام متنوعة: يوتيوب، تطبيقات، تسجيل مواقع، قراءة إيميل. مكافآت من 6 حتى 210 GIZ لكل مهمة.</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-ico">👥</div>
+        <div class="feat-name">نظام الإحالة 3 مستويات</div>
+        <div class="feat-desc">اكسب 140 GIZ لكل إحالة + 10% دائمة من أرباح مستوى 1، 5% من مستوى 2، 3% من مستوى 3.</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-ico">🏆</div>
+        <div class="feat-name">مسابقات أسبوعية</div>
+        <div class="feat-desc">تنافس على لقب أكثر GIZ مكتسبة أسبوعياً. الفائز يحصل على ترقي مجاني دائم!</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-ico">💸</div>
+        <div class="feat-name">سحب فوري 24/7</div>
+        <div class="feat-desc">اسحب إلى TON، USDT، Bitcoin، PayPal، Binance Pay، STC Pay، Vodafone Cash أو تحويل بنكي.</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-ico">⬆️</div>
+        <div class="feat-name">نظام المستويات</div>
+        <div class="feat-desc">4 مستويات: برونزي → فضي → ذهبي → ماسي. كل مستوى يضاعف أرباحك اليومية ومزايا الإحالة.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="ln-how">
+    <div class="ln-sec-title">⚡ كيف تبدأ؟</div>
+    <div class="ln-sec-sub">3 خطوات فقط للبدء في الربح</div>
+    <div class="steps-row">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-name">سجّل مجاناً</div>
+        <div class="step-desc">أنشئ حسابك في دقيقة واحدة — لا بيانات بنكية مطلوبة</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-name">أنجز المهام</div>
+        <div class="step-desc">شاهد إعلانات، أنجز مهام يومية، وأحل أصدقاءك</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-name">اسحب أرباحك</div>
+        <div class="step-desc">اسحب GIZ إلى محفظتك الرقمية أو حسابك البنكي فوراً</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Earnings table -->
+  <section class="ln-earnings">
+    <div class="ln-sec-title">💰 جدول الأرباح الرسمي</div>
+    <div class="ln-sec-sub">معدل الصرف: 100 GIZ = 1$ · عمولة السحب: 30%</div>
+    <div class="earn-table-wrap">
+      <table class="earn-table">
+        <thead>
+          <tr><th>المهمة / النشاط</th><th>المكافأة</th><th>بالدولار</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>🖥️ Surf موقع (30 ثانية)</td><td class="earn-amt">+7 GIZ</td><td style="color:rgba(255,255,255,.5)">0.07$</td></tr>
+          <tr><td>▶️ مشاهدة يوتيوب</td><td class="earn-amt">+14 GIZ</td><td style="color:rgba(255,255,255,.5)">0.14$</td></tr>
+          <tr><td>📺 اشتراك قناة يوتيوب</td><td class="earn-amt">+35 GIZ</td><td style="color:rgba(255,255,255,.5)">0.35$</td></tr>
+          <tr><td>🌐 تسجيل موقع</td><td class="earn-amt">+105 GIZ</td><td style="color:rgba(255,255,255,.5)">1.05$</td></tr>
+          <tr><td>📱 تحميل تطبيق</td><td class="earn-amt">+210 GIZ</td><td style="color:rgba(255,255,255,.5)">2.10$</td></tr>
+          <tr><td>👥 إحالة نشطة</td><td class="earn-amt">+140 GIZ</td><td style="color:rgba(255,255,255,.5)">1.40$</td></tr>
+          <tr style="background:rgba(232,160,32,.04)"><td style="color:var(--gold);font-weight:700">🥇 Surf يومي (ذهبي · 50 موقع)</td><td class="earn-amt">+350 GIZ</td><td style="color:rgba(255,255,255,.5)">3.50$</td></tr>
+          <tr style="background:rgba(59,130,246,.04)"><td style="color:#93C5FD;font-weight:700">💎 Surf يومي (ماسي · غير محدود)</td><td class="earn-amt">+500 GIZ</td><td style="color:rgba(255,255,255,.5)">5.00$</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="ln-cta">
+    <div class="cta-box">
+      <div style="font-size:2.5rem;margin-bottom:.6rem">🚀</div>
+      <div class="cta-title">انضم الآن وابدأ الربح</div>
+      <div class="cta-sub">أكثر من 120 ألف عضو يربحون يومياً. سجّل مجاناً واحصل على مكافأة ترحيبية فور التسجيل.</div>
+      <button class="btn-hero-main" onclick="gotoAuth('register')">إنشاء حساب مجاني الآن ←</button>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="ln-footer">
+    <div class="lf-txt">© 2025 GIZ منصة الربح الذكي · جميع الحقوق محفوظة</div>
+    <div class="lf-links">
+      <a>الشروط والأحكام</a>
+      <a>سياسة الخصوصية</a>
+      <a>الدعم الفني</a>
+      <a onclick="gotoAuth('login')">تسجيل الدخول</a>
+    </div>
+  </footer>
+
+</div><!-- end landing -->
+
+<!-- ===================== SCREEN: AUTH ===================== -->
+<div class="screen flex-screen" id="screen-auth">
+  <div class="auth-wrap">
+    <div class="auth-logo">
+      <div class="auth-logo-mark">G</div>
+      <div class="auth-logo-txt">GIZ</div>
+      <div class="auth-logo-sub">منصة الربح الذكي</div>
+    </div>
+
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tab-login" onclick="switchAuthTab('login')">تسجيل الدخول</button>
+      <button class="auth-tab" id="tab-register" onclick="switchAuthTab('register')">إنشاء حساب</button>
+    </div>
+
+    <!-- Login Form -->
+    <div class="auth-card" id="form-login">
+      <div class="auth-form-title">مرحباً بعودتك 👋</div>
+      <div class="auth-form-sub">سجّل دخولك للوصول إلى لوحة التحكم</div>
+      <div class="af-group">
+        <label class="af-label">البريد الإلكتروني أو اسم المستخدم</label>
+        <input class="af-input" type="text" placeholder="example@email.com" id="login-email">
+      </div>
+      <div class="af-group">
+        <label class="af-label">كلمة المرور</label>
+        <input class="af-input" type="password" placeholder="••••••••" id="login-pass">
+      </div>
+      <div style="text-align:left;margin-bottom:.8rem"><a style="font-size:.7rem;color:var(--gold);cursor:pointer">نسيت كلمة المرور؟</a></div>
+      <button class="btn-auth" onclick="doLogin()">دخول ←</button>
+      <div class="auth-divider">أو</div>
+      <div style="text-align:center;font-size:.72rem;color:rgba(255,255,255,.35)">
+        ليس لديك حساب؟ <span style="color:var(--gold);cursor:pointer;font-weight:700" onclick="switchAuthTab('register')">إنشاء حساب مجاني</span>
+      </div>
+    </div>
+
+    <!-- Register Form -->
+    <div class="auth-card" id="form-register" style="display:none">
+      <div class="auth-form-title">انضم إلى GIZ مجاناً 🚀</div>
+      <div class="auth-form-sub">أنشئ حسابك في ثوانٍ وابدأ الربح فوراً</div>
+
+      <div class="af-ref-box">
+        <div class="af-ref-ico">🔗</div>
+        <div class="af-ref-txt">لديك رابط إحالة؟ سيحصل المُحيل على <strong>+140 GIZ</strong> عند نشاطك وتحصل أنت على مكافأة ترحيبية</div>
+      </div>
+
+      <div class="af-group">
+        <label class="af-label">الاسم الكامل</label>
+        <input class="af-input" type="text" placeholder="أحمد محمد">
+      </div>
+      <div class="af-group">
+        <label class="af-label">البريد الإلكتروني</label>
+        <input class="af-input" type="email" placeholder="example@email.com">
+      </div>
+      <div class="af-group">
+        <label class="af-label">كلمة المرور</label>
+        <input class="af-input" type="password" placeholder="8 أحرف على الأقل">
+      </div>
+      <div class="af-group">
+        <label class="af-label">رمز الإحالة (اختياري)</label>
+        <input class="af-input" type="text" placeholder="مثال: AHMED2025" id="ref-code-input">
+        <div class="af-hint">👆 أدخل رمز الإحالة إن كان لديك واحد</div>
+      </div>
+      <button class="btn-auth" onclick="doRegister()">إنشاء الحساب الآن ←</button>
+      <div style="margin-top:.9rem;font-size:.63rem;color:rgba(255,255,255,.25);text-align:center;line-height:1.6">
+        بإنشاء حساب أنت توافق على شروط الاستخدام وسياسة الخصوصية
+      </div>
+    </div>
+
+    <div class="auth-back">← <span onclick="gotoLanding()">العودة للصفحة الرئيسية</span></div>
+  </div>
+</div>
+
+<!-- ===================== SCREEN: APP ===================== -->
+<div id="screen-app">
+
+  <!-- TASK BAR -->
+  <div class="taskbar">
+    <div class="tb-item active-tb" onclick="appPage('home',null)">🏠 الرئيسية</div>
+    <div class="tb-sep"></div>
+    <div class="tb-item" onclick="appPage('tasks',null)">✅ المهام <span style="background:var(--red);color:#fff;font-size:.5rem;padding:1px 5px;border-radius:10px;margin-right:3px">12</span></div>
+    <div class="tb-sep"></div>
+    <div class="tb-item" onclick="appPage('surf',null)">🖥️ Surf <span class="tb-dot" style="margin-right:3px"></span></div>
+    <div class="tb-sep"></div>
+    <div class="tb-item" onclick="appPage('referral',null)">👥 الإحالات</div>
+    <div class="tb-sep"></div>
+    <div class="tb-item" onclick="appPage('upgrade',null)">⬆️ الترقي</div>
+    <div class="tb-sep"></div>
+    <div class="tb-item" onclick="appPage('withdraw',null)">💸 السحب</div>
+    <div class="tb-sep"></div>
+    <div class="tb-item" onclick="appPage('history',null)">📋 السجل</div>
+
+    <div class="tb-right">
+      <div class="tb-bal" id="tb-bal-txt">4,280 GIZ</div>
+      <div class="tb-user-pill">
+        <div class="tb-av">أح</div>
+        <div class="tb-uname">أحمد المطيري</div>
+      </div>
+      <button class="btn-tb-logout" onclick="doLogout()">خروج</button>
+    </div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sb-logo">
+      <div class="logo-mark">G</div>
+      <div>
+        <div class="logo-text">GIZ</div>
+        <small class="logo-sub">منصة الربح الذكي</small>
+      </div>
+    </div>
+    <div class="sb-user">
+      <div class="sb-av">أح</div>
+      <div>
+        <div class="sb-uname">أحمد المطيري</div>
+        <div class="sb-level">المستوى: <b>🥈 فضي</b></div>
+      </div>
+    </div>
+    <nav class="sb-nav">
+      <div class="nav-sec">القائمة</div>
+      <button class="nav-item active" id="nav-home" onclick="appPage('home',this)"><span class="nav-ico">🏠</span> الرئيسية</button>
+      <button class="nav-item" id="nav-tasks" onclick="appPage('tasks',this)"><span class="nav-ico">✅</span> المهام <span class="nav-badge">12</span></button>
+      <button class="nav-item" id="nav-surf" onclick="appPage('surf',this)"><span class="nav-ico">🖥️</span> Surf الإعلانات</button>
+      <button class="nav-item" id="nav-referral" onclick="appPage('referral',this)"><span class="nav-ico">👥</span> الإحالات</button>
+      <div class="nav-sec">الحساب</div>
+      <button class="nav-item" id="nav-upgrade" onclick="appPage('upgrade',this)"><span class="nav-ico">⬆️</span> الترقي</button>
+      <button class="nav-item" id="nav-withdraw" onclick="appPage('withdraw',this)"><span class="nav-ico">💸</span> السحب</button>
+      <button class="nav-item" id="nav-history" onclick="appPage('history',this)"><span class="nav-ico">📋</span> السجل</button>
+    </nav>
+    <div style="padding:.5rem .75rem .75rem">
+      <div class="sb-bal">
+        <div class="sbb-lbl">رصيدك الحالي</div>
+        <div class="sbb-val" id="sb-giz">4,280 GIZ</div>
+        <div class="sbb-usd" id="sb-usd">≈ 42.80 $</div>
+        <button class="btn-w" onclick="appPage('withdraw',null)">💸 سحب الآن</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar">
+      <div class="tp-title" id="page-title">🏠 الرئيسية</div>
+      <div class="tp-right">
+        <div class="live-pill"><div class="live-dot"></div> مباشر</div>
+        <div class="notif-btn">🔔<div class="notif-dot"></div></div>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- HOME -->
+      <div class="page active" id="page-home">
+        <div class="stats-row">
+          <div class="stat-card"><div class="sc-top"><div class="sc-ico" style="background:var(--gold-bg)">💰</div><span class="sc-badge up">+12%</span></div><div class="sc-val" style="color:var(--gold)">4,280</div><div class="sc-label">رصيد GIZ الكلي</div></div>
+          <div class="stat-card"><div class="sc-top"><div class="sc-ico" style="background:var(--green-bg)">📅</div><span class="sc-badge up">اليوم</span></div><div class="sc-val" style="color:var(--green)">210</div><div class="sc-label">GIZ مكتسبة اليوم</div></div>
+          <div class="stat-card"><div class="sc-top"><div class="sc-ico" style="background:var(--blue-bg)">👥</div><span class="sc-badge up">+2</span></div><div class="sc-val" style="color:var(--blue)">24</div><div class="sc-label">إحالات نشطة</div></div>
+          <div class="stat-card"><div class="sc-top"><div class="sc-ico" style="background:var(--red-bg)">✅</div><span class="sc-badge dn">8 باقية</span></div><div class="sc-val">7</div><div class="sc-label">مهام منجزة اليوم</div></div>
+        </div>
+        <div class="ref-banner">
+          <div class="ref-icon-wrap">🔗</div>
+          <div class="ref-banner-info">
+            <div class="ref-banner-title">رابط إحالتك الشخصي</div>
+            <div class="ref-banner-sub">اكسب 140 GIZ لكل صديق + عمولة دائمة 10% من أرباحه</div>
+          </div>
+          <div class="ref-inp-wrap">
+            <input class="ref-inp-sm" id="ref-link-home" value="https://giz.io/ref/AHMED2025" readonly>
+            <button class="btn-copy-sm" onclick="copyRefHome()">نسخ 📋</button>
+          </div>
+          <div class="ref-earn-pill"><div class="rep-val">+140</div><div class="rep-lbl">GIZ / إحالة</div></div>
+        </div>
+        <div class="sec-title">📊 مستواك وتقدمك</div>
+        <div class="level-card">
+          <div>
+            <div class="lc-head"><div class="lc-ico">🥈</div><div><div class="lc-name">المستوى الفضي</div><div class="lc-sub">Surf 30 موقع/يوم · 210 GIZ يومياً</div></div></div>
+            <div class="prog-row"><div class="pr-top"><span>الإحالات النشطة</span><strong>24 / 50</strong></div><div class="pr-bar"><div class="pr-fill pr-gold" style="width:48%"></div></div></div>
+            <div class="prog-row"><div class="pr-top"><span>GIZ المكتسبة إجمالاً</span><strong>4,280 / 50,000</strong></div><div class="pr-bar"><div class="pr-fill pr-blue" style="width:8.5%"></div></div></div>
+            <div style="font-size:.62rem;color:var(--txt2);margin-top:.35rem">⚠️ كلا الشرطين مطلوبان للترقي التلقائي المجاني</div>
+          </div>
+          <div class="lc-right">
+            <div class="next-box"><div class="nb-lbl">المستوى التالي</div><div class="nb-ico">🥇</div><div class="nb-name" style="color:var(--gold)">ذهبي</div><div class="nb-req">50 إحالة + 50,000 GIZ</div></div>
+            <button class="btn-up buy" onclick="appPage('upgrade',null);buyUpgrade('ذهبي',15)">ترقَّ فوراً — 15$</button>
+            <button class="btn-up" onclick="appPage('upgrade',null)">تفاصيل الترقي ⬆️</button>
+          </div>
+        </div>
+        <div class="sec-title">🖥️ جلسة Surf النشطة</div>
+        <div class="surf-card">
+          <div class="surf-timer-wrap"><div class="surf-num" id="home-timer">30</div><div class="surf-lbl">ثانية</div></div>
+          <div class="surf-info">
+            <div class="surf-url">🔒 tech-offers.example.com</div>
+            <div class="surf-site-name">تيك أوفرز — أفضل عروض التقنية اليوم</div>
+            <div class="surf-site-desc">منصة تقنية متخصصة بعروض الأجهزة والبرمجيات. خصومات حتى 70%...</div>
+            <div class="surf-prog"><div class="surf-prog-fill"></div></div>
+          </div>
+          <div class="surf-right">
+            <div class="surf-earn"><div class="se-val">+7</div><div class="se-lbl">GIZ / مشاهدة</div></div>
+            <div class="surf-stat"><span>اليوم</span><strong style="color:var(--green)">18/30</strong></div>
+            <div class="surf-stat"><span>مستواك</span><strong style="color:var(--gold)">فضي 🥈</strong></div>
+          </div>
+        </div>
+        <div class="sec-title">⚡ مهام سريعة</div>
+        <div class="tasks-grid">
+          <div class="task-card done"><div class="tc-top"><div class="tc-ico" style="background:var(--blue-bg)">🖥️</div><div class="tc-reward">+7 GIZ</div></div><div class="tc-name">Surf 30 ثانية</div><div class="tc-desc">شاهد موقع معلن لـ 30 ثانية واكسب فوراً</div><div class="tc-footer"><span class="tc-time">⏱ 30 ثانية</span><span class="btn-done">✓ منجز</span></div></div>
+          <div class="task-card" onclick="doTask(this,14)"><div class="tc-top"><div class="tc-ico" style="background:var(--red-bg)">▶️</div><div class="tc-reward">+14 GIZ</div></div><div class="tc-name">مشاهدة يوتيوب</div><div class="tc-desc">شاهد فيديو المعلن حتى النهاية وأعجب به</div><div class="tc-footer"><span class="tc-time">⏱ 3 دقائق</span><button class="btn-do">ابدأ</button></div></div>
+          <div class="task-card" onclick="doTask(this,35)"><div class="tc-top"><div class="tc-ico" style="background:var(--gold-bg)">📺</div><div class="tc-reward">+35 GIZ</div></div><div class="tc-name">اشتراك قناة يوتيوب</div><div class="tc-desc">اشترك في قناة الشريك المعلن واحصل على مكافأة</div><div class="tc-footer"><span class="tc-time">⏱ دقيقة</span><button class="btn-do">ابدأ</button></div></div>
+        </div>
+      </div>
+
+      <!-- TASKS -->
+      <div class="page" id="page-tasks">
+        <div class="stats-row" style="grid-template-columns:repeat(3,1fr)">
+          <div class="stat-card"><div class="sc-top"><div class="sc-ico" style="background:var(--green-bg)">✅</div><span class="sc-badge up">اليوم</span></div><div class="sc-val" style="color:var(--green)">7</div><div class="sc-label">منجز اليوم</div></div>
+          <div class="stat-card"><div class="sc-top"><div class="sc-ico" style="background:var(--gold-bg)">💰</div><span class="sc-badge up">+210</span></div><div class="sc-val" style="color:var(--gold)">210</div><div class="sc-label">GIZ من المهام اليوم</div></div>
+          <div class="stat-card"><div class="sc-top"><div class="sc-ico" style="background:var(--blue-bg)">📋</div><span class="sc-badge up">متاح</span></div><div class="sc-val" style="color:var(--blue)">12</div><div class="sc-label">مهمة متاحة الآن</div></div>
+        </div>
+        <div class="sec-title">📋 جميع المهام</div>
+        <div class="tasks-grid">
+          <div class="task-card done"><div class="tc-top"><div class="tc-ico" style="background:var(--blue-bg)">🖥️</div><div class="tc-reward">+7 GIZ</div></div><div class="tc-name">Surf 30 ثانية</div><div class="tc-desc">شاهد موقع معلن لـ 30 ثانية.</div><div class="tc-footer"><span class="tc-time">⏱ 30 ثانية</span><span class="btn-done">✓ منجز</span></div></div>
+          <div class="task-card" onclick="doTask(this,14)"><div class="tc-top"><div class="tc-ico" style="background:var(--red-bg)">▶️</div><div class="tc-reward">+14 GIZ</div></div><div class="tc-name">مشاهدة يوتيوب</div><div class="tc-desc">شاهد فيديو المعلن حتى النهاية.</div><div class="tc-footer"><span class="tc-time">⏱ 3 دقائق</span><button class="btn-do">ابدأ الآن</button></div></div>
+          <div class="task-card" onclick="doTask(this,35)"><div class="tc-top"><div class="tc-ico" style="background:var(--gold-bg)">📺</div><div class="tc-reward">+35 GIZ</div></div><div class="tc-name">اشتراك قناة يوتيوب</div><div class="tc-desc">اشترك في القناة المحددة وأثبت اشتراكك.</div><div class="tc-footer"><span class="tc-time">⏱ دقيقة</span><button class="btn-do">ابدأ الآن</button></div></div>
+          <div class="task-card" onclick="doTask(this,105)"><div class="tc-top"><div class="tc-ico" style="background:var(--green-bg)">🌐</div><div class="tc-reward">+105 GIZ</div></div><div class="tc-name">تسجيل موقع</div><div class="tc-desc">سجّل حساباً جديداً وفعّله عبر البريد.</div><div class="tc-footer"><span class="tc-time">⏱ 7 دقائق</span><button class="btn-do">ابدأ الآن</button></div></div>
+          <div class="task-card" onclick="doTask(this,210)"><div class="tc-top"><div class="tc-ico" style="background:var(--blue-bg)">📱</div><div class="tc-reward">+210 GIZ</div></div><div class="tc-name">تحميل تطبيق</div><div class="tc-desc">حمّل التطبيق المحدد وافتحه 30 ثانية.</div><div class="tc-footer"><span class="tc-time">⏱ 10 دقائق</span><button class="btn-do">ابدأ الآن</button></div></div>
+          <div class="task-card" onclick="doTask(this,6)"><div class="tc-top"><div class="tc-ico" style="background:var(--gold-bg)">📧</div><div class="tc-reward">+6 GIZ</div></div><div class="tc-name">قراءة إيميل</div><div class="tc-desc">افتح الرسالة الإعلانية واقرأها 10 ثوانٍ.</div><div class="tc-footer"><span class="tc-time">⏱ 30 ثانية</span><button class="btn-do">ابدأ الآن</button></div></div>
+        </div>
+      </div>
+
+      <!-- SURF -->
+      <div class="page" id="page-surf">
+        <div class="stats-row" style="grid-template-columns:repeat(3,1fr)">
+          <div class="stat-card"><div class="sc-top"><div class="sc-ico" style="background:var(--gold-bg)">🖥️</div><span class="sc-badge up">اليوم</span></div><div class="sc-val" style="color:var(--gold)">18</div><div class="sc-label">مشاهدة اليوم</div></div>
+          <div class="stat-card"><div class="sc-top"><div class="sc-ico" style="background:var(--green-bg)">💰</div><span class="sc-badge up">+126</span></div><div class="sc-val" style="color:var(--green)">126</div><div class="sc-label">GIZ من Surf اليوم</div></div>
+          <div class="stat-card"><div class="sc-top"><div class="sc-ico" style="background:var(--blue-bg)">🎯</div><span class="sc-badge dn">12 باقي</span></div><div class="sc-val" style="color:var(--blue)">30</div><div class="sc-label">حد Surf اليومي</div></div>
+        </div>
+        <div class="sec-title">🖥️ جلسة Surf النشطة</div>
+        <div class="surf-card">
+          <div class="surf-timer-wrap"><div class="surf-num" id="surf-big-timer">30</div><div class="surf-lbl">ثانية</div></div>
+          <div class="surf-info">
+            <div class="surf-url">🔒 smartshop.example.com</div>
+            <div class="surf-site-name">SmartShop — تسوق ذكي بأسعار لا تصدق</div>
+            <div class="surf-site-desc">منصة تسوق إلكتروني. خصومات تصل إلى 80%...</div>
+            <div class="surf-prog"><div class="surf-prog-fill"></div></div>
+          </div>
+          <div class="surf-right">
+            <div class="surf-earn"><div class="se-val">+7</div><div class="se-lbl">GIZ لهذه المشاهدة</div></div>
+            <div class="surf-stat"><span>مكتسب اليوم</span><strong style="color:var(--green)">126 GIZ</strong></div>
+            <div class="surf-stat"><span>الحد اليومي</span><strong>18 / 30</strong></div>
+          </div>
+        </div>
+        <div class="sec-title">📊 حدود Surf حسب المستوى</div>
+        <div class="surf-levels">
+          <div class="sl-card"><div style="font-size:1.5rem;margin-bottom:.3rem">🥉</div><div style="font-size:.78rem;font-weight:700">برونزي</div><div style="font-family:'Tajawal',sans-serif;font-size:1.2rem;font-weight:900;color:var(--gold);margin:.2rem 0">10</div><div style="font-size:.62rem;color:var(--txt2)">موقع/يوم</div><div style="font-size:.65rem;color:var(--green);margin-top:.2rem">= 70 GIZ/يوم</div></div>
+          <div class="sl-card active-lv"><div style="font-size:1.5rem;margin-bottom:.3rem">🥈</div><div style="font-size:.78rem;font-weight:700;color:var(--gold)">فضي ← أنت</div><div style="font-family:'Tajawal',sans-serif;font-size:1.2rem;font-weight:900;color:var(--gold);margin:.2rem 0">30</div><div style="font-size:.62rem;color:var(--txt2)">موقع/يوم</div><div style="font-size:.65rem;color:var(--green);margin-top:.2rem">= 210 GIZ/يوم</div></div>
+          <div class="sl-card"><div style="font-size:1.5rem;margin-bottom:.3rem">🥇</div><div style="font-size:.78rem;font-weight:700">ذهبي</div><div style="font-family:'Tajawal',sans-serif;font-size:1.2rem;font-weight:900;color:var(--gold);margin:.2rem 0">50</div><div style="font-size:.62rem;color:var(--txt2)">موقع/يوم</div><div style="font-size:.65rem;color:var(--green);margin-top:.2rem">= 350 GIZ/يوم</div></div>
+          <div class="sl-card"><div style="font-size:1.5rem;margin-bottom:.3rem">💎</div><div style="font-size:.78rem;font-weight:700">ماسي</div><div style="font-family:'Tajawal',sans-serif;font-size:1.2rem;font-weight:900;color:var(--blue);margin:.2rem 0">∞</div><div style="font-size:.62rem;color:var(--txt2)">غير محدود</div><div style="font-size:.65rem;color:var(--green);margin-top:.2rem">500+ GIZ/يوم</div></div>
+        </div>
+      </div>
+
+      <!-- REFERRAL -->
+      <div class="page" id="page-referral">
+        <div class="ref-big-card">
+          <div class="rbc-head"><div class="rbc-ico">🔗</div><div><div class="rbc-title">رابط إحالتك الشخصي</div><div class="rbc-sub">اكسب 140 GIZ (1.40$) لكل إحالة نشطة + عمولة دائمة</div></div></div>
+          <div class="ref-inp-row"><input class="ref-inp-full" id="ref-link" value="https://giz.io/ref/AHMED2025" readonly><button class="btn-copy-sm" onclick="copyRef()">نسخ 📋</button></div>
+          <div style="font-size:.65rem;color:rgba(255,255,255,.32)">💡 الإحالة تُحسب: سجّل ✓ + 5 مهام ✓ + 7 أيام ✓</div>
+        </div>
+        <div class="sec-title">💸 نظام العمولة (3 مستويات)</div>
+        <div class="ref-levels-row">
+          <div class="ref-lv-box"><div class="rlb-pct">10%</div><div class="rlb-name">المستوى الأول</div><div class="rlb-desc">من أرباح إحالاتك المباشرة · دائم</div></div>
+          <div class="ref-lv-box"><div class="rlb-pct">5%</div><div class="rlb-name">المستوى الثاني</div><div class="rlb-desc">من أرباح إحالات إحالاتك</div></div>
+          <div class="ref-lv-box"><div class="rlb-pct">3%</div><div class="rlb-name">المستوى الثالث</div><div class="rlb-desc">دخل سلبي عميق من شبكتك</div></div>
+        </div>
+        <div class="sec-title">📊 إحصائياتك</div>
+        <div class="ref-stats-row">
+          <div class="rstat"><div class="rstat-num">24</div><div class="rstat-lbl">إحالة نشطة</div></div>
+          <div class="rstat"><div class="rstat-num">142</div><div class="rstat-lbl">GIZ هذا الشهر</div></div>
+          <div class="rstat"><div class="rstat-num">3</div><div class="rstat-lbl">مستويات نشطة</div></div>
+          <div class="rstat"><div class="rstat-num" style="color:var(--green)">1,820</div><div class="rstat-lbl">GIZ إجمالي</div></div>
+        </div>
+        <div style="margin-top:1rem;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1rem;box-shadow:var(--shadow)">
+          <div style="display:flex;justify-content:space-between;font-size:.7rem;color:var(--txt2);margin-bottom:.4rem"><span>التقدم نحو الذهبي</span><span style="color:var(--gold)">24 / 50 إحالة</span></div>
+          <div class="pr-bar"><div class="pr-fill pr-gold" style="width:48%"></div></div>
+          <div style="margin-top:.55rem;font-size:.63rem;color:var(--txt2)">تحتاج 26 إحالة إضافية + 45,720 GIZ للترقي التلقائي المجاني</div>
+        </div>
+      </div>
+
+      <!-- UPGRADE -->
+      <div class="page" id="page-upgrade">
+        <div class="sec-title">⬆️ مستويات العضوية</div>
+        <div class="upgrade-grid">
+          <div class="up-card"><div class="up-ico">🥉</div><div class="up-name">برونزي</div><ul class="up-perks"><li>10 مشاهدات/يوم</li><li>70 GIZ/يوم</li><li>مهام أساسية</li><li>إحالة مستوى 1</li></ul><hr class="up-divider"><div style="font-size:.68rem;color:var(--green);text-align:center">✓ تلقائي مجاناً</div></div>
+          <div class="up-card current"><span class="up-badge-card current-badge">✓ مستواك</span><div class="up-ico">🥈</div><div class="up-name">فضي</div><ul class="up-perks"><li>30 مشاهدات/يوم</li><li>210 GIZ/يوم</li><li>جميع المهام</li><li>إحالة مستويين</li></ul><hr class="up-divider"><div class="up-ways"><div class="up-way"><div class="uw-label">🏃 نشاط مجاني</div><div class="uw-cond">10 إحالة + 10,000 GIZ</div></div><div class="up-way"><div class="uw-label">💳 شراء دائم</div><div class="uw-price">5 $</div></div></div></div>
+          <div class="up-card next-lv"><span class="up-badge-card next-badge">⬆ التالي</span><div class="up-ico">🥇</div><div class="up-name" style="color:var(--gold)">ذهبي</div><ul class="up-perks"><li>50 مشاهدات/يوم</li><li>350 GIZ/يوم</li><li>مهام حصرية</li><li>إحالة 3 مستويات</li><li>مسابقات VIP</li></ul><hr class="up-divider"><div class="up-ways"><div class="up-way"><div class="uw-label">🏃 نشاط مجاني</div><div class="uw-cond">50 إحالة + 50,000 GIZ</div></div><div class="up-way"><div class="uw-label">💳 شراء دائم</div><div class="uw-price">15 $</div></div></div><button class="btn-upgrade-now" onclick="buyUpgrade('ذهبي',15)">ترقَّ بـ 15$</button></div>
+          <div class="up-card" style="border-color:rgba(59,130,246,.25)"><div class="up-ico">💎</div><div class="up-name" style="color:var(--blue)">ماسي</div><ul class="up-perks"><li>Surf غير محدود</li><li>500+ GIZ/يوم</li><li>مكافآت ×2</li><li>مدير حساب شخصي</li><li>جوائز حصرية</li></ul><hr class="up-divider"><div class="up-ways"><div class="up-way"><div class="uw-label">🏃 نشاط مجاني</div><div class="uw-cond">100 إحالة + 150,000 GIZ</div></div><div class="up-way"><div class="uw-label">💳 شراء دائم</div><div class="uw-price">35 $</div></div></div><button class="btn-upgrade-now" style="background:var(--blue)" onclick="buyUpgrade('ماسي',35)">ترقَّ بـ 35$</button></div>
+        </div>
+        <div class="sec-title">🏆 مسابقة هذا الأسبوع</div>
+        <div class="contest-card">
+          <div class="cc-head"><div class="cc-title">🏆 أكثر GIZ مكتسبة هذا الأسبوع</div><div class="cc-timer">⏱ 3 أيام 14 ساعة</div></div>
+          <div style="font-size:.68rem;color:var(--txt2);margin-bottom:.75rem">الفائز يحصل على ترقي مؤقت. 3 انتصارات = ترقي دائم!</div>
+          <div class="contest-list">
+            <div class="contest-row"><div class="cr-rank">🥇</div><div class="cr-name">محمد العتيبي</div><div class="cr-pts">12,450 GIZ</div><div class="cr-prize">ترقي ذهبي</div></div>
+            <div class="contest-row"><div class="cr-rank">🥈</div><div class="cr-name">سارة القحطاني</div><div class="cr-pts">10,820 GIZ</div><div class="cr-prize">ترقي فضي</div></div>
+            <div class="contest-row" style="border-color:var(--gold)"><div class="cr-rank" style="color:var(--blue)">47</div><div class="cr-name" style="color:var(--gold)">أنت — أحمد</div><div class="cr-pts">4,280 GIZ</div><div class="cr-prize" style="color:var(--txt2)">—</div></div>
+            <div class="contest-row"><div class="cr-rank">🥉</div><div class="cr-name">خالد الشمري</div><div class="cr-pts">9,100 GIZ</div><div class="cr-prize">ترقي فضي</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- WITHDRAW -->
+      <div class="page" id="page-withdraw">
+        <div class="withdraw-wrap">
+          <div class="w-balance-card">
+            <div><div class="wbc-label">رصيدك القابل للسحب</div><div class="wbc-giz" id="w-giz-bal">4,280 GIZ</div><div class="wbc-usd">≈ <strong id="w-usd-bal">42.80 $</strong> · عمولة 30%</div></div>
+            <div class="wbc-right"><div class="wbc-min">الحد الأدنى</div><div style="font-family:'Tajawal',sans-serif;font-size:1.2rem;font-weight:900;color:var(--gold)">1,000 GIZ</div><div style="font-size:.62rem;color:rgba(255,255,255,.32)">= 10$ (صافي 7$)</div></div>
+          </div>
+          <div class="sec-title">💳 طريقة السحب</div>
+          <div class="wallet-tabs">
+            <button class="wtab active" onclick="selectWallet(this,'ton')">💎 TON</button>
+            <button class="wtab" onclick="selectWallet(this,'usdt')">💵 USDT</button>
+            <button class="wtab" onclick="selectWallet(this,'btc')">₿ Bitcoin</button>
+            <button class="wtab" onclick="selectWallet(this,'paypal')">📱 PayPal</button>
+            <button class="wtab" onclick="selectWallet(this,'binance')">🔶 Binance</button>
+            <button class="wtab" onclick="selectWallet(this,'stc')">🏧 STC Pay</button>
+            <button class="wtab" onclick="selectWallet(this,'vodafone')">📲 Vodafone</button>
+            <button class="wtab" onclick="selectWallet(this,'bank')">🏦 IBAN</button>
+          </div>
+          <div class="w-form-card">
+            <div class="wfc-head"><div class="wfc-logo" id="w-logo">💎</div><div><div class="wfc-name" id="w-name">TON</div><div class="wfc-desc" id="w-desc">سحب فوري إلى محفظة TON</div></div></div>
+            <div id="ton-section"><div class="wf-label">محفظة GIZ الرسمية</div><div class="ton-addr-box"><div>💎</div><div class="ton-addr-txt">UQCakd1ZzDAG55jVd3SPVWwvt4fhr_5aIlk4ZQn5Nry35rYH</div><div class="ton-ok">✓ موثق</div></div></div>
+            <div class="wf-row"><label class="wf-label" id="addr-label">عنوان محفظة TON الخاصة بك</label><input class="wf-input" id="wallet-address" placeholder="أدخل عنوان TON..."></div>
+            <div class="wf-row">
+              <label class="wf-label">مبلغ السحب</label>
+              <div class="amount-row">
+                <div class="amount-box sel" onclick="selectAmount(this,1000)"><div class="ab-giz">1,000</div><div class="ab-usd">7$</div></div>
+                <div class="amount-box" onclick="selectAmount(this,2000)"><div class="ab-giz">2,000</div><div class="ab-usd">14$</div></div>
+                <div class="amount-box" onclick="selectAmount(this,3000)"><div class="ab-giz">3,000</div><div class="ab-usd">21$</div></div>
+                <div class="amount-box" onclick="selectAmount(this,4280)"><div class="ab-giz">الكل</div><div class="ab-usd">29.96$</div></div>
+              </div>
+              <input class="wf-input" id="custom-amount" placeholder="مبلغ مخصص..." oninput="updateFee(this.value)">
+            </div>
+            <div class="fee-summary">
+              <div class="fee-row"><span class="lbl">مبلغ السحب</span><span class="val" id="f-amount">1,000 GIZ</span></div>
+              <div class="fee-row"><span class="lbl">نصيبك 70%</span><span class="val" id="f-user">700 GIZ</span></div>
+              <div class="fee-row"><span class="lbl">عمولة المنصة 30%</span><span class="val" id="f-platform">300 GIZ</span></div>
+              <div class="fee-row"><span class="lbl">صافي ما تستلمه</span><span class="val green" id="f-net">700 GIZ = 7.00$</span></div>
+            </div>
+            <button class="btn-withdraw-now" onclick="confirmWithdraw()">💸 سحب الآن</button>
+          </div>
+          <div class="sec-title">📋 آخر السحوبات</div>
+          <div class="w-history"><table class="hist-table"><thead><tr><th>التاريخ</th><th>المبلغ</th><th>الطريقة</th><th>صافي</th><th>الحالة</th></tr></thead><tbody><tr><td>2025-01-10</td><td style="color:var(--gold)">2,000 GIZ</td><td>💎 TON</td><td style="color:var(--green)">14$</td><td><span class="badge g">مكتمل</span></td></tr><tr><td>2024-12-28</td><td style="color:var(--gold)">1,500 GIZ</td><td>💵 USDT</td><td style="color:var(--green)">10.5$</td><td><span class="badge g">مكتمل</span></td></tr><tr><td>2024-12-15</td><td style="color:var(--gold)">1,000 GIZ</td><td>💎 TON</td><td style="color:var(--green)">7$</td><td><span class="badge y">معلق</span></td></tr></tbody></table></div>
+        </div>
+      </div>
+
+      <!-- HISTORY -->
+      <div class="page" id="page-history">
+        <div class="stats-row" style="grid-template-columns:repeat(3,1fr)">
+          <div class="stat-card"><div class="sc-top"><div class="sc-ico" style="background:var(--gold-bg)">📈</div><span class="sc-badge up">إجمالي</span></div><div class="sc-val" style="color:var(--gold)">6,100</div><div class="sc-label">GIZ مكتسبة</div></div>
+          <div class="stat-card"><div class="sc-top"><div class="sc-ico" style="background:var(--red-bg)">💸</div><span class="sc-badge dn">مسحوب</span></div><div class="sc-val" style="color:var(--red)">4,500</div><div class="sc-label">GIZ مسحوبة</div></div>
+          <div class="stat-card"><div class="sc-top"><div class="sc-ico" style="background:var(--green-bg)">💰</div></div><div class="sc-val" style="color:var(--green)" id="hist-bal">4,280</div><div class="sc-label">الرصيد الحالي</div></div>
+        </div>
+        <div class="sec-title">📋 سجل العمليات</div>
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow)">
+          <table class="hist-table"><thead><tr><th>التاريخ</th><th>النوع</th><th>التفاصيل</th><th>المبلغ</th><th>الحالة</th></tr></thead><tbody>
+            <tr><td>2025-01-13</td><td><span class="badge b">Surf</span></td><td>tech-offers.com</td><td style="color:var(--green)">+7 GIZ</td><td><span class="badge g">✓</span></td></tr>
+            <tr><td>2025-01-13</td><td><span class="badge y">مهمة</span></td><td>مشاهدة يوتيوب</td><td style="color:var(--green)">+14 GIZ</td><td><span class="badge g">✓</span></td></tr>
+            <tr><td>2025-01-13</td><td><span class="badge b">إحالة</span></td><td>سعود المطيري</td><td style="color:var(--green)">+140 GIZ</td><td><span class="badge g">✓</span></td></tr>
+            <tr><td>2025-01-12</td><td><span class="badge y">مهمة</span></td><td>تحميل تطبيق Noon</td><td style="color:var(--green)">+210 GIZ</td><td><span class="badge g">✓</span></td></tr>
+            <tr><td>2025-01-12</td><td><span class="badge r">سحب</span></td><td>TON — صافي 1,400 GIZ</td><td style="color:var(--red)">-2,000 GIZ</td><td><span class="badge g">✓</span></td></tr>
+            <tr><td>2025-01-11</td><td><span class="badge b">Surf</span></td><td>جلسة 30 موقع</td><td style="color:var(--green)">+210 GIZ</td><td><span class="badge g">✓</span></td></tr>
+          </tbody></table>
+        </div>
+      </div>
+
+    </div><!-- end content -->
+  </div><!-- end main -->
+</div><!-- end app -->
+
+<!-- MODAL -->
+<div class="overlay" id="modal-overlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h3 id="modal-title">تأكيد</h3>
+    <div id="modal-body" style="display:flex;flex-direction:column;gap:.6rem"></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+// ===== SCREEN NAVIGATION =====
+function gotoAuth(tab) {
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  const s = document.getElementById('screen-auth');
+  s.style.display='flex';
+  s.classList.add('active');
+  switchAuthTab(tab);
+}
+function gotoLanding() {
+  document.querySelectorAll('.screen').forEach(s=>{s.classList.remove('active');s.style.display='';});
+  document.getElementById('screen-auth').style.display='none';
+  document.getElementById('screen-app').style.display='none';
+  document.getElementById('screen-landing').style.display='block';
+  document.getElementById('screen-landing').classList.add('active');
+}
+function gotoApp() {
+  document.querySelectorAll('.screen').forEach(s=>{s.classList.remove('active');s.style.display='';});
+  document.getElementById('screen-auth').style.display='none';
+  document.getElementById('screen-landing').style.display='none';
+  const app = document.getElementById('screen-app');
+  app.style.display='flex';
+  app.classList.add('active');
+}
+function doLogout() {
+  showToast('👋 تم تسجيل الخروج');
+  setTimeout(gotoLanding, 800);
+}
+
+// ===== AUTH =====
+function switchAuthTab(tab) {
+  document.getElementById('tab-login').classList.toggle('active', tab==='login');
+  document.getElementById('tab-register').classList.toggle('active', tab==='register');
+  document.getElementById('form-login').style.display = tab==='login' ? 'block' : 'none';
+  document.getElementById('form-register').style.display = tab==='register' ? 'block' : 'none';
+}
+function doLogin() {
+  const e = document.getElementById('login-email').value.trim();
+  const p = document.getElementById('login-pass').value.trim();
+  if(!e || !p){ showToastGlobal('⚠️ أدخل البريد وكلمة المرور','error'); return; }
+  showToastGlobal('✅ تم تسجيل الدخول بنجاح!');
+  setTimeout(gotoApp, 700);
+}
+function doRegister() {
+  showToastGlobal('✅ تم إنشاء الحساب! مرحباً بك في GIZ 🎉');
+  setTimeout(gotoApp, 800);
+}
+
+// ===== APP PAGES =====
+const pageTitles = {
+  home:'🏠 الرئيسية', tasks:'✅ المهام',
+  surf:'🖥️ Surf الإعلانات', referral:'👥 الإحالات',
+  upgrade:'⬆️ الترقي', withdraw:'💸 السحب', history:'📋 السجل'
+};
+function appPage(id, btn) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const p = document.getElementById('page-'+id);
+  if(p) p.classList.add('active');
+  const t = document.getElementById('page-title');
+  if(t) t.textContent = pageTitles[id] || id;
+  if(btn) btn.classList.add('active');
+  else {
+    const nb = document.getElementById('nav-'+id);
+    if(nb) nb.classList.add('active');
+  }
+  // sync taskbar highlight
+  document.querySelectorAll('.tb-item').forEach(i=>i.classList.remove('active-tb'));
+}
+
+// ===== TIMERS =====
+let t1=30, t2=30;
+setInterval(()=>{
+  t1--; if(t1<0) t1=30;
+  t2--; if(t2<0) t2=30;
+  const e1=document.getElementById('home-timer');
+  const e2=document.getElementById('surf-big-timer');
+  if(e1) e1.textContent=t1;
+  if(e2) e2.textContent=t2;
+},1000);
+
+// ===== TASK =====
+const GIZ_RATE=100, USER_SHARE=0.70;
+let balance=4280, selectedAmount=1000;
+function doTask(card,reward){
+  card.classList.add('done');
+  const btn=card.querySelector('.btn-do');
+  if(btn) btn.outerHTML='<span class="btn-done">✓ منجز</span>';
+  balance+=reward; updateBalance();
+  showToast('✅ +'+reward+' GIZ أضيفت لرصيدك!');
+}
+
+// ===== WALLET =====
+const walletData={
+  ton:{name:'TON',desc:'سحب فوري إلى TON',logo:'💎',showTon:true,placeholder:'عنوان TON...'},
+  usdt:{name:'USDT TRC20',desc:'سحب إلى USDT',logo:'💵',showTon:false,placeholder:'عنوان TRC20...'},
+  btc:{name:'Bitcoin',desc:'سحب إلى Bitcoin',logo:'₿',showTon:false,placeholder:'عنوان BTC...'},
+  paypal:{name:'PayPal',desc:'سحب إلى PayPal',logo:'📱',showTon:false,placeholder:'بريد PayPal...'},
+  binance:{name:'Binance Pay',desc:'سحب إلى Binance',logo:'🔶',showTon:false,placeholder:'معرف Binance...'},
+  stc:{name:'STC Pay',desc:'سحب إلى STC',logo:'🏧',showTon:false,placeholder:'رقم STC...'},
+  vodafone:{name:'Vodafone Cash',desc:'سحب إلى Vodafone',logo:'📲',showTon:false,placeholder:'رقم Vodafone...'},
+  bank:{name:'تحويل بنكي',desc:'تحويل IBAN',logo:'🏦',showTon:false,placeholder:'رقم IBAN...'},
+};
+function selectWallet(btn,key){
+  document.querySelectorAll('.wtab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const w=walletData[key];
+  document.getElementById('w-name').textContent=w.name;
+  document.getElementById('w-desc').textContent=w.desc;
+  document.getElementById('w-logo').textContent=w.logo;
+  document.getElementById('ton-section').style.display=w.showTon?'block':'none';
+  document.getElementById('addr-label').textContent=w.showTon?'عنوان محفظة TON':'عنوانك في '+w.name;
+  document.getElementById('wallet-address').placeholder=w.placeholder;
+}
+function selectAmount(box,giz){
+  document.querySelectorAll('.amount-box').forEach(b=>b.classList.remove('sel'));
+  box.classList.add('sel'); selectedAmount=giz; updateFee(giz);
+  document.getElementById('custom-amount').value='';
+}
+function updateFee(giz){
+  giz=parseInt(giz)||selectedAmount;
+  const us=Math.floor(giz*USER_SHARE), pf=giz-us, usd=(us/GIZ_RATE).toFixed(2);
+  document.getElementById('f-amount').textContent=giz.toLocaleString()+' GIZ';
+  document.getElementById('f-user').textContent=us.toLocaleString()+' GIZ';
+  document.getElementById('f-platform').textContent=pf.toLocaleString()+' GIZ';
+  document.getElementById('f-net').textContent=us.toLocaleString()+' GIZ = '+usd+'$';
+}
+function confirmWithdraw(){
+  const addr=document.getElementById('wallet-address').value.trim();
+  if(!addr){showToast('⚠️ أدخل عنوان المحفظة','error');return;}
+  if(selectedAmount<1000){showToast('⚠️ الحد الأدنى 1,000 GIZ','error');return;}
+  if(selectedAmount>balance){showToast('⚠️ الرصيد غير كافٍ','error');return;}
+  const net=Math.floor(selectedAmount*USER_SHARE), usd=(net/GIZ_RATE).toFixed(2);
+  document.getElementById('modal-title').textContent='تأكيد السحب';
+  document.getElementById('modal-body').innerHTML=`
+    <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:.85rem">
+      <div style="display:flex;justify-content:space-between;padding:.28rem 0;border-bottom:1px solid var(--border);font-size:.74rem"><span style="color:var(--txt2)">المبلغ</span><strong style="color:var(--gold)">${selectedAmount.toLocaleString()} GIZ</strong></div>
+      <div style="display:flex;justify-content:space-between;padding:.28rem 0;border-bottom:1px solid var(--border);font-size:.74rem"><span style="color:var(--txt2)">عمولة 30%</span><span>${(selectedAmount-net).toLocaleString()} GIZ</span></div>
+      <div style="display:flex;justify-content:space-between;padding:.28rem 0;font-size:.78rem;font-weight:700"><span style="color:var(--txt2)">ستستلم</span><strong style="color:var(--green)">${net.toLocaleString()} GIZ = ${usd}$</strong></div>
+    </div>
+    <div style="font-size:.66rem;color:var(--txt2);background:var(--bg);padding:.6rem;border-radius:7px;border:1px solid var(--border);word-break:break-all">📬 ${addr}</div>
+    <button class="modal-confirm-btn" onclick="executeWithdraw(${selectedAmount},${net})">✅ تأكيد السحب</button>
+    <button class="modal-cancel-btn" onclick="closeModal()">إلغاء</button>
+  `;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+function executeWithdraw(amount,net){
+  balance-=amount; updateBalance(); closeModal();
+  showToast('✅ تم إرسال طلب السحب! '+net.toLocaleString()+' GIZ');
+}
+function buyUpgrade(level,price){
+  const icons={فضي:'🥈',ذهبي:'🥇',ماسي:'💎'};
+  document.getElementById('modal-title').textContent='ترقي إلى '+level;
+  document.getElementById('modal-body').innerHTML=`
+    <div style="text-align:center;padding:.4rem 0"><div style="font-size:2.4rem">${icons[level]||'⬆️'}</div><div style="font-family:'Tajawal',sans-serif;font-size:1.7rem;font-weight:900;color:var(--gold)">${price} $</div><div style="font-size:.7rem;color:var(--txt2);margin-bottom:.8rem">ترقي دائم · لا رسوم متكررة</div></div>
+    <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:.85rem;font-size:.7rem">
+      <div style="color:var(--txt2);margin-bottom:.4rem">📬 أرسل ${price}$ إلى محفظة TON الرسمية:</div>
+      <div style="font-family:monospace;font-size:.63rem;word-break:break-all;color:var(--blue);cursor:pointer" onclick="navigator.clipboard.writeText('UQCakd1ZzDAG55jVd3SPVWwvt4fhr_5aIlk4ZQn5Nry35rYH').then(()=>showToast('✅ تم النسخ!'))">UQCakd1ZzDAG55jVd3SPVWwvt4fhr_5aIlk4ZQn5Nry35rYH</div>
+    </div>
+    <button class="modal-confirm-btn" onclick="navigator.clipboard.writeText('UQCakd1ZzDAG55jVd3SPVWwvt4fhr_5aIlk4ZQn5Nry35rYH').then(()=>{closeModal();showToast('✅ انسخ العنوان وأرسل الدفع!')})">📋 نسخ العنوان</button>
+    <button class="modal-cancel-btn" onclick="closeModal()">إلغاء</button>
+  `;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+function copyRef(){
+  navigator.clipboard.writeText(document.getElementById('ref-link').value).then(()=>showToast('✅ تم نسخ رابط الإحالة!'));
+}
+function copyRefHome(){
+  navigator.clipboard.writeText(document.getElementById('ref-link-home').value).then(()=>showToast('✅ تم نسخ رابط الإحالة!'));
+}
+function updateBalance(){
+  const usd=(balance/GIZ_RATE).toFixed(2);
+  const sg=document.getElementById('sb-giz'), su=document.getElementById('sb-usd');
+  const tb=document.getElementById('tb-bal-txt');
+  const wg=document.getElementById('w-giz-bal'), wu=document.getElementById('w-usd-bal');
+  const hb=document.getElementById('hist-bal');
+  if(sg) sg.textContent=balance.toLocaleString()+' GIZ';
+  if(su) su.textContent='≈ '+usd+' $';
+  if(tb) tb.textContent=balance.toLocaleString()+' GIZ';
+  if(wg) wg.textContent=balance.toLocaleString()+' GIZ';
+  if(wu) wu.textContent=usd+' $';
+  if(hb) hb.textContent=balance.toLocaleString();
+}
+function closeModal(){ document.getElementById('modal-overlay').classList.remove('open'); }
+document.getElementById('modal-overlay').addEventListener('click',function(e){if(e.target===this)closeModal();});
+
+function showToast(msg,type=''){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.className='toast '+(type==='error'?'error':'')+' show';
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+function showToastGlobal(msg,type=''){
+  // create temporary toast for auth/landing
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.className='toast '+(type==='error'?'error':'')+' show';
+  t.style.background=type==='error'?'var(--red)':'#17B26A';
+  setTimeout(()=>{t.classList.remove('show');t.style.background='';},3000);
+}
+</script>
+</body>
+</html>
