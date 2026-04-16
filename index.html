@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>GIZ - Tap to Earn</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -199,6 +200,41 @@ body{font-family:'Cairo',sans-serif;background:var(--dark);color:#fff;height:100
 .tg-user-details{flex:1;}
 .tg-user-id{font-size:9px;color:rgba(0,136,204,.7);font-family:'Orbitron',sans-serif;}
 .tg-user-name{font-size:12px;font-weight:700;color:#fff;}
+
+/* TON CONNECT */
+.ton-connect-wrap{margin-bottom:12px;}
+#ton-connect-button{width:100%;}
+.ton-connect-wrap tc-root{width:100%;}
+
+/* ADMIN PANEL */
+.admin-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:1000;overflow-y:auto;padding:20px;}
+.admin-overlay.open{display:block;}
+.admin-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid rgba(255,215,0,.2);}
+.admin-title{font-size:18px;font-weight:900;color:var(--gold);}
+.admin-close{background:rgba(255,255,255,.08);border:none;border-radius:10px;padding:8px 14px;color:#fff;cursor:pointer;font-family:'Cairo',sans-serif;font-size:12px;}
+.admin-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px;}
+.admin-stat{background:rgba(255,215,0,.07);border:1px solid rgba(255,215,0,.2);border-radius:14px;padding:13px;text-align:center;}
+.admin-stat-num{font-size:22px;font-weight:900;color:var(--gold);}
+.admin-stat-lbl{font-size:10px;color:rgba(255,255,255,.5);margin-top:3px;}
+.admin-section-title{font-size:13px;font-weight:700;color:var(--accent);margin-bottom:10px;margin-top:6px;}
+.admin-user-item{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:11px;margin-bottom:8px;}
+.admin-user-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;}
+.admin-user-name{font-size:12px;font-weight:700;}
+.admin-user-bal{font-size:11px;color:var(--gold);font-weight:700;}
+.admin-user-wallet{font-size:9px;color:var(--accent);word-break:break-all;margin-bottom:4px;}
+.admin-user-meta{font-size:9px;color:rgba(255,255,255,.35);}
+.admin-pay-item{background:rgba(0,255,136,.04);border:1px solid rgba(0,255,136,.15);border-radius:12px;padding:11px;margin-bottom:8px;}
+.admin-pay-top{display:flex;justify-content:space-between;margin-bottom:4px;}
+.admin-pay-user{font-size:11px;font-weight:700;}
+.admin-pay-amount{font-size:12px;color:var(--green);font-weight:900;}
+.admin-pay-detail{font-size:9px;color:rgba(255,255,255,.4);}
+.admin-btn{width:100%;padding:13px;background:linear-gradient(135deg,var(--gold),var(--gold2));border:none;border-radius:14px;color:#000;font-size:14px;font-weight:900;cursor:pointer;font-family:'Cairo',sans-serif;margin-bottom:10px;}
+.admin-btn-danger{background:linear-gradient(135deg,var(--red),#cc0033)!important;color:#fff!important;}
+.admin-secret{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:10px;color:#fff;font-size:14px;font-family:'Cairo',sans-serif;outline:none;width:100%;margin-bottom:10px;text-align:center;}
+.admin-login{text-align:center;padding:40px 20px;}
+.admin-login-title{font-size:20px;font-weight:900;color:var(--gold);margin-bottom:8px;}
+.admin-login-sub{font-size:12px;color:rgba(255,255,255,.5);margin-bottom:20px;}
+.empty-state{text-align:center;padding:30px;color:rgba(255,255,255,.3);font-size:12px;}
 </style>
 </head>
 <body>
@@ -220,7 +256,10 @@ body{font-family:'Cairo',sans-serif;background:var(--dark);color:#fff;height:100
         <div class="u-lvl" id="userLvl">⭐ مبتدئ</div>
       </div>
     </div>
-    <button class="wallet-btn" id="walletBtn" onclick="connectWallet()">🔗 ربط المحفظة</button>
+    <div style="display:flex;gap:6px;align-items:center;">
+      <button class="wallet-btn" id="walletBtn" onclick="connectWallet()">🔗 ربط المحفظة</button>
+      <button class="wallet-btn" onclick="openAdmin()" style="padding:7px 9px;font-size:14px;" title="لوحة الإدارة">⚙️</button>
+    </div>
   </div>
 
   <!-- BALANCE -->
@@ -367,6 +406,37 @@ body{font-family:'Cairo',sans-serif;background:var(--dark);color:#fff;height:100
   </div>
 </div>
 
+<!-- ADMIN PANEL -->
+<div class="admin-overlay" id="adminOverlay">
+  <div id="adminLogin" class="admin-login">
+    <div style="font-size:48px;margin-bottom:12px;">🔐</div>
+    <div class="admin-login-title">لوحة الإدارة</div>
+    <div class="admin-login-sub">أدخل كلمة المرور للدخول</div>
+    <input class="admin-secret" type="password" id="adminPass" placeholder="كلمة المرور..." onkeydown="if(event.key==='Enter')checkAdminPass()">
+    <button class="admin-btn" onclick="checkAdminPass()">🔓 دخول</button>
+    <button class="admin-btn" style="background:rgba(255,255,255,.08);color:#fff;margin-top:4px;" onclick="closeAdmin()">إلغاء</button>
+  </div>
+  <div id="adminDash" style="display:none;">
+    <div class="admin-header">
+      <div class="admin-title">⚙️ لوحة الإدارة</div>
+      <button class="admin-close" onclick="closeAdmin()">✕ إغلاق</button>
+    </div>
+    <div class="admin-stats">
+      <div class="admin-stat"><div class="admin-stat-num" id="adminTotalUsers">0</div><div class="admin-stat-lbl">إجمالي المستخدمين</div></div>
+      <div class="admin-stat"><div class="admin-stat-num" id="adminConnectedWallets">0</div><div class="admin-stat-lbl">محافظ مربوطة</div></div>
+      <div class="admin-stat"><div class="admin-stat-num" id="adminTotalPayments">0</div><div class="admin-stat-lbl">إجمالي المدفوعات</div></div>
+      <div class="admin-stat"><div class="admin-stat-num" id="adminTotalTON">0</div><div class="admin-stat-lbl">TON مُدفوع</div></div>
+    </div>
+    <div class="admin-section-title">🔗 المحافظ المربوطة</div>
+    <div id="adminWalletsList"></div>
+    <div class="admin-section-title">💸 سجل المدفوعات</div>
+    <div id="adminPaymentsList"></div>
+    <div class="admin-section-title">🛠️ إجراءات</div>
+    <button class="admin-btn" onclick="adminExportData()">📥 تصدير البيانات (JSON)</button>
+    <button class="admin-btn" style="background:linear-gradient(135deg,var(--red),#cc0033);color:#fff;" onclick="adminClearPayments()">🗑️ مسح سجل المدفوعات</button>
+  </div>
+</div>
+
 <!-- MODAL -->
 <div class="modal-ov" id="modalOv">
   <div class="modal">
@@ -382,9 +452,10 @@ body{font-family:'Cairo',sans-serif;background:var(--dark);color:#fff;height:100
 
 <script>
 // ══════════════════════════════════════════
-//  ⚙️ CONFIG — غيّر هذا باسم البوت الخاص بك
+//  ⚙️ CONFIG
 // ══════════════════════════════════════════
-const BOT_USERNAME = 'GIZ_bot'; // 👈 ضع اسم بوتك هنا
+const BOT_USERNAME = 'GIZ_bot';
+const ADMIN_PASSWORD = 'GIZ2024admin'; // 👈 غيّر كلمة المرور هنا
 
 // ══════════════════════════════════════════
 //  📱 TELEGRAM WEBAPP INTEGRATION
@@ -725,6 +796,7 @@ function buyUpgrade(id) {
       state.balance -= cost;
       state.upgrades[id].level++;
       up.apply();
+      savePaymentRecord(cost, toTON(cost), `ترقية ${up.name}`);
       save(); updateUI();
       showNotif(`✅ تم ترقية ${up.name}!`);
       if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
@@ -750,6 +822,7 @@ function sellGIZ() {
     `بيع ${fmtNum(amt)} GIZ\nمقابل ${toTON(amt)} TON\n(≈ $${toUSD(amt)})\n\nإلى: ${state.walletAddress}`,
     () => {
       state.balance -= amt;
+      savePaymentRecord(amt, toTON(amt), 'بيع GIZ');
       save(); updateUI();
       document.getElementById('sellAmount').value = '';
       document.getElementById('sellPreview').textContent = 'أدخل الكمية لرؤية القيمة';
@@ -759,25 +832,189 @@ function sellGIZ() {
 }
 
 // ══════════════════════════════════════════
-//  WALLET
+//  💎 TON CONNECT
 // ══════════════════════════════════════════
+let tonConnectUI = null;
+
+function initTonConnect() {
+  try {
+    tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+      manifestUrl: 'https://adel66638.github.io/GIZ/tonconnect-manifest.json',
+      buttonRootId: null
+    });
+    tonConnectUI.onStatusChange(wallet => {
+      if (wallet) {
+        const addr = wallet.account.address;
+        const friendlyAddr = addr.slice(0,6) + '...' + addr.slice(-4);
+        state.walletConnected = true;
+        state.walletAddress = addr;
+        // حفظ بيانات المستخدم في سجل المحافظ
+        saveWalletRecord(addr, wallet);
+        save(); updateUI();
+        showNotif('✅ تم ربط المحفظة بنجاح!');
+      } else {
+        state.walletConnected = false;
+        state.walletAddress = '';
+        document.getElementById('walletBtn').textContent = '🔗 ربط المحفظة';
+        document.getElementById('walletBtn').classList.remove('ok');
+        save(); updateUI();
+      }
+    });
+  } catch(e) {
+    console.log('TonConnect init error:', e);
+  }
+}
+
+function saveWalletRecord(address, wallet) {
+  try {
+    const records = JSON.parse(localStorage.getItem('giz_wallets') || '[]');
+    const existing = records.findIndex(r => r.tgId === (tgUser?.id || 'demo'));
+    const record = {
+      tgId: tgUser?.id || 'demo',
+      tgName: tgUser ? (tgUser.username || tgUser.first_name) : 'Demo',
+      address: address,
+      connectedAt: new Date().toISOString(),
+      balance: state.balance
+    };
+    if (existing >= 0) records[existing] = record;
+    else records.push(record);
+    localStorage.setItem('giz_wallets', JSON.stringify(records));
+  } catch(e) {}
+}
+
+function savePaymentRecord(amount, tonAmount, type) {
+  try {
+    const payments = JSON.parse(localStorage.getItem('giz_payments') || '[]');
+    payments.unshift({
+      tgId: tgUser?.id || 'demo',
+      tgName: tgUser ? (tgUser.username || tgUser.first_name) : 'Demo',
+      address: state.walletAddress,
+      gizAmount: amount,
+      tonAmount: tonAmount,
+      type: type,
+      date: new Date().toISOString()
+    });
+    localStorage.setItem('giz_payments', JSON.stringify(payments));
+  } catch(e) {}
+}
+
 function connectWallet() {
   if (state.walletConnected) {
-    openModal('🔗', 'المحفظة متصلة', `العنوان: ${state.walletAddress}\n\nهل تريد قطع الاتصال؟`, () => {
-      state.walletConnected = false;
-      state.walletAddress = '';
-      document.getElementById('walletBtn').textContent = '🔗 ربط المحفظة';
-      document.getElementById('walletBtn').classList.remove('ok');
-      save(); showNotif('🔌 تم قطع الاتصال');
-    });
+    openModal('🔗', 'المحفظة متصلة',
+      `العنوان: ${state.walletAddress.slice(0,10)}...${state.walletAddress.slice(-6)}\n\nهل تريد قطع الاتصال؟`,
+      () => {
+        if (tonConnectUI) tonConnectUI.disconnect();
+        state.walletConnected = false;
+        state.walletAddress = '';
+        document.getElementById('walletBtn').textContent = '🔗 ربط المحفظة';
+        document.getElementById('walletBtn').classList.remove('ok');
+        save(); showNotif('🔌 تم قطع الاتصال');
+      });
     return;
   }
-  openModal('💎', 'ربط TON Wallet', 'سيفتح TonConnect لربط محفظتك\n\nاستبدل هذا لاحقاً بـ TonConnect SDK', () => {
-    const fakeAddr = 'UQ' + Math.random().toString(36).substr(2,6).toUpperCase() + Math.random().toString(36).substr(2,20).toUpperCase();
-    state.walletConnected = true;
-    state.walletAddress = fakeAddr;
-    save(); updateUI();
-    showNotif('✅ تم ربط المحفظة بنجاح!');
+  if (tonConnectUI) {
+    tonConnectUI.openModal();
+  } else {
+    // fallback للاختبار خارج تيليغرام
+    openModal('💎', 'ربط TON Wallet',
+      'افتح التطبيق داخل تيليغرام لربط محفظة TON الحقيقية',
+      () => {
+        const fakeAddr = 'EQ' + Math.random().toString(36).substr(2,8).toUpperCase() + Math.random().toString(36).substr(2,20).toUpperCase();
+        state.walletConnected = true;
+        state.walletAddress = fakeAddr;
+        saveWalletRecord(fakeAddr, null);
+        save(); updateUI();
+        showNotif('✅ تم ربط المحفظة (وضع تجريبي)');
+      });
+  }
+}
+
+// ══════════════════════════════════════════
+//  🛡️ ADMIN PANEL
+// ══════════════════════════════════════════
+function openAdmin() {
+  document.getElementById('adminOverlay').classList.add('open');
+  document.getElementById('adminLogin').style.display = 'block';
+  document.getElementById('adminDash').style.display = 'none';
+  document.getElementById('adminPass').value = '';
+}
+
+function closeAdmin() {
+  document.getElementById('adminOverlay').classList.remove('open');
+}
+
+function checkAdminPass() {
+  const pass = document.getElementById('adminPass').value;
+  if (pass === ADMIN_PASSWORD) {
+    document.getElementById('adminLogin').style.display = 'none';
+    document.getElementById('adminDash').style.display = 'block';
+    loadAdminData();
+  } else {
+    showNotif('❌ كلمة المرور خاطئة');
+    document.getElementById('adminPass').value = '';
+  }
+}
+
+function loadAdminData() {
+  const wallets = JSON.parse(localStorage.getItem('giz_wallets') || '[]');
+  const payments = JSON.parse(localStorage.getItem('giz_payments') || '[]');
+  const totalTON = payments.reduce((s, p) => s + (parseFloat(p.tonAmount) || 0), 0);
+
+  document.getElementById('adminTotalUsers').textContent = wallets.length;
+  document.getElementById('adminConnectedWallets').textContent = wallets.length;
+  document.getElementById('adminTotalPayments').textContent = payments.length;
+  document.getElementById('adminTotalTON').textContent = totalTON.toFixed(3);
+
+  // قائمة المحافظ
+  const wList = document.getElementById('adminWalletsList');
+  if (wallets.length === 0) {
+    wList.innerHTML = '<div class="empty-state">لا توجد محافظ مربوطة بعد</div>';
+  } else {
+    wList.innerHTML = wallets.map(w => `
+      <div class="admin-user-item">
+        <div class="admin-user-top">
+          <div class="admin-user-name">👤 ${w.tgName}</div>
+          <div class="admin-user-bal">${fmtNum(w.balance || 0)} GIZ</div>
+        </div>
+        <div class="admin-user-wallet">💎 ${w.address}</div>
+        <div class="admin-user-meta">🆔 ${w.tgId} · 📅 ${new Date(w.connectedAt).toLocaleDateString('ar')}</div>
+      </div>`).join('');
+  }
+
+  // سجل المدفوعات
+  const pList = document.getElementById('adminPaymentsList');
+  if (payments.length === 0) {
+    pList.innerHTML = '<div class="empty-state">لا توجد مدفوعات بعد</div>';
+  } else {
+    pList.innerHTML = payments.map(p => `
+      <div class="admin-pay-item">
+        <div class="admin-pay-top">
+          <div class="admin-pay-user">👤 ${p.tgName} (${p.type})</div>
+          <div class="admin-pay-amount">${p.tonAmount} TON</div>
+        </div>
+        <div class="admin-pay-detail">💰 ${fmtNum(p.gizAmount)} GIZ · 📅 ${new Date(p.date).toLocaleDateString('ar')} · 💎 ${p.address?.slice(0,12)}...</div>
+      </div>`).join('');
+  }
+}
+
+function adminExportData() {
+  const data = {
+    wallets: JSON.parse(localStorage.getItem('giz_wallets') || '[]'),
+    payments: JSON.parse(localStorage.getItem('giz_payments') || '[]'),
+    exportDate: new Date().toISOString()
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'giz_admin_data.json'; a.click();
+  showNotif('✅ تم تصدير البيانات!');
+}
+
+function adminClearPayments() {
+  openModal('⚠️', 'تأكيد المسح', 'هل تريد مسح سجل المدفوعات؟\nلا يمكن التراجع عن هذا!', () => {
+    localStorage.removeItem('giz_payments');
+    loadAdminData();
+    showNotif('🗑️ تم مسح السجل');
   });
 }
 
@@ -900,6 +1137,7 @@ initTelegram();  // أولاً: جلب بيانات تيليغرام
 loadState();     // ثانياً: تحميل الحالة المناسبة للمستخدم
 calcOfflineEarnings();
 updateUI();
+initTonConnect(); // ثالثاً: تهيئة TonConnect
 </script>
 </body>
 </html>
