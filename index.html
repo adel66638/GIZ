@@ -471,7 +471,10 @@ body{font-family:'Cairo',sans-serif;background:var(--dark);color:#fff;height:100
     <div class="modal-ttl" id="payModalTtl">انتظر...</div>
     <div class="modal-txt" id="payModalBody">
       أرسل <b id="payModalAmt" style="color:var(--gold)"></b> إلى محفظة التطبيق:<br><br>
-      <div style="background:rgba(255,255,255,.06);border-radius:10px;padding:9px;direction:ltr;font-size:10px;color:rgba(255,255,255,.8);word-break:break-all;font-family:monospace;margin:8px 0;">UQCakd1ZzDAG55jVd3SPVWwvt4fhr_5aIlk4ZQn5Nry35rYH</div>
+      <div style="display:flex;align-items:stretch;gap:6px;margin:8px 0;">
+        <div style="flex:1;background:rgba(255,255,255,.06);border-radius:10px;padding:9px;direction:ltr;font-size:10px;color:rgba(255,255,255,.8);word-break:break-all;font-family:monospace;">UQCakd1ZzDAG55jVd3SPVWwvt4fhr_5aIlk4ZQn5Nry35rYH</div>
+        <button id="payModalCopyBtn" onclick="copyPayModalWallet()" style="width:40px;min-width:40px;background:rgba(255,215,0,.13);border:1px solid rgba(255,215,0,.35);border-radius:10px;color:var(--gold);font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:.15s;">📋</button>
+      </div>
       <div id="payStatus" style="margin-top:10px;font-size:12px;color:rgba(255,255,255,.5);">بعد الإرسال اضغط "التحقق من الدفع"</div>
       <div id="payCountdown" style="font-size:11px;color:var(--accent);margin-top:4px;"></div>
       <span style="font-size:10px;color:rgba(255,255,255,.4);">سيتم تفعيل <span id="payModalLvl"></span> تلقائياً</span>
@@ -1066,6 +1069,25 @@ function showPage(id) {
   updateUI();
 }
 function goToWithdraw() { showPage('withdraw'); }
+
+function copyPayModalWallet() {
+  navigator.clipboard.writeText(SITE_WALLET_ADDR)
+    .then(() => {
+      showNotif('✅ تم نسخ عنوان المحفظة!');
+      const btn = document.getElementById('payModalCopyBtn');
+      if (btn) {
+        btn.textContent = '✅';
+        btn.style.background = 'rgba(0,255,136,.18)';
+        btn.style.borderColor = 'rgba(0,255,136,.5)';
+        setTimeout(() => {
+          btn.textContent = '📋';
+          btn.style.background = 'rgba(255,215,0,.13)';
+          btn.style.borderColor = 'rgba(255,215,0,.35)';
+        }, 1500);
+      }
+    })
+    .catch(() => showNotif('⚠️ فشل النسخ'));
+}
 
 function copySiteWallet() {
   navigator.clipboard.writeText(SITE_WALLET)
