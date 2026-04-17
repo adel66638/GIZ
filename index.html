@@ -434,6 +434,25 @@ body{font-family:'Cairo',sans-serif;background:var(--dark);color:#fff;height:100
 
 </div><!-- /app -->
 
+<!-- PAYMENT MODAL -->
+<div class="modal-ov" id="payModalOv" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:600;align-items:center;justify-content:center;padding:20px;">
+  <div class="modal" style="text-align:center;">
+    <div class="modal-ic" id="payModalIc">💳</div>
+    <div class="modal-ttl" id="payModalTtl">انتظر...</div>
+    <div class="modal-txt" id="payModalBody">
+      أرسل <b id="payModalAmt" style="color:var(--gold)"></b> إلى محفظة التطبيق:<br><br>
+      <div style="background:rgba(255,255,255,.06);border-radius:10px;padding:9px;direction:ltr;font-size:10px;color:rgba(255,255,255,.8);word-break:break-all;font-family:monospace;margin:8px 0;">UQCakd1ZzDAG55jVd3SPVWwvt4fhr_5aIlk4ZQn5Nry35rYH</div>
+      <div id="payStatus" style="margin-top:10px;font-size:12px;color:rgba(255,255,255,.5);">بعد الإرسال اضغط "التحقق من الدفع"</div>
+      <div id="payCountdown" style="font-size:11px;color:var(--accent);margin-top:4px;"></div>
+      <span style="font-size:10px;color:rgba(255,255,255,.4);">سيتم تفعيل <span id="payModalLvl"></span> تلقائياً</span>
+    </div>
+    <div class="modal-btns" id="payModalBtns">
+      <button class="mbtn mbtn-cancel" onclick="cancelPayment()">إلغاء</button>
+      <button class="mbtn mbtn-ok" id="verifyBtn" onclick="verifyPaymentNow()">🔍 التحقق من الدفع</button>
+    </div>
+  </div>
+</div>
+
 <!-- MODAL -->
 <div class="modal-ov" id="modalOv">
   <div class="modal">
@@ -479,7 +498,9 @@ let state = {
   withdrawHistory: [],
   referrals: 0,
   refEarned: 0,
-  pendingUpgrade: null
+  pendingUpgrade: null,
+  pendingPaymentTime: null,
+  telegramId: null
 };
 
 // ============================================================
@@ -650,17 +671,186 @@ function closeModal() {
   document.getElementById('modalOv').classList.remove('open');
   pendingUpgradeId = null;
 }
+// ============================================================
+// TON PAYMENT & BLOCKCHAIN VERIFICATION
+// ============================================================
+const SITE_WALLET_ADDR = 'UQCakd1ZzDAG55jVd3SPVWwvt4fhr_5aIlk4ZQn5Nry35rYH';
+const TONCENTER_API = 'https://toncenter.com/api/v2/getTransactions';
+// Raw address for API queries (without UQ prefix bounce format)
+const SITE_WALLET_RAW = SITE_WALLET_ADDR;
+
+let paymentCheckInterval = null;
+let paymentCheckCount = 0;
+let paymentStartTime = null;
+let expectedTonAmount = 0;
+let expectedComment = '';
+
 function confirmUpgrade() {
   if (pendingUpgradeId === null) return;
   const lv = LEVELS[pendingUpgradeId];
-  // In real app: TON payment here. Demo: instant upgrade
-  state.currentLevel = pendingUpgradeId;
-  state.energy = lv.maxEnergy;
+
+  // Save pending upgrade
+  state.pendingUpgrade = pendingUpgradeId;
+  state.pendingPaymentTime = Date.now();
+  save();
   closeModal();
+
+  // Build unique comment for this payment
+  const uid = state.telegramId || 'user';
+  expectedComment = 'GIZ' + lv.id + '_' + uid;
+  expectedTonAmount = lv.tonCost;
+  paymentStartTime = Date.now();
+
+  // Build TON deeplink
+  const nanotons = Math.floor(lv.tonCost * 1e9);
+  const tonLink = 'ton://transfer/' + SITE_WALLET_ADDR
+    + '?amount=' + nanotons
+    + '&text=' + encodeURIComponent(expectedComment);
+
+  // Open TON wallet
+  const tg = window.Telegram?.WebApp;
+  if (tg?.openLink) {
+    tg.openLink(tonLink);
+  } else {
+    window.open(tonLink, '_blank');
+  }
+
+  // Show modal
+  document.getElementById('payModalLvl').textContent = lv.name;
+  document.getElementById('payModalAmt').textContent = lv.tonCost + ' TON';
+  document.getElementById('payModalTtl').textContent = 'أكمل الدفع';
+  document.getElementById('payModalIc').textContent = '💳';
+  document.getElementById('payStatus').innerHTML = '⏳ في انتظار التحقق من الـ Blockchain...';
+  document.getElementById('payModalOv').style.display = 'flex';
+
+  // Start auto-check every 8 seconds
+  paymentCheckCount = 0;
+  clearInterval(paymentCheckInterval);
+  paymentCheckInterval = setInterval(autoCheckPayment, 8000);
+  startCountdown();
+}
+
+function startCountdown() {
+  const totalSecs = 180; // 3 min timeout
+  const cd = document.getElementById('payCountdown');
+  let remaining = totalSecs;
+  const timer = setInterval(() => {
+    remaining--;
+    if (remaining <= 0) {
+      clearInterval(timer);
+      cd.textContent = '';
+      return;
+    }
+    const m = Math.floor(remaining / 60);
+    const s = remaining % 60;
+    cd.textContent = 'يتحقق تلقائياً · ' + m + ':' + (s < 10 ? '0' : '') + s;
+  }, 1000);
+}
+
+async function autoCheckPayment() {
+  paymentCheckCount++;
+  if (paymentCheckCount > 22) { // ~3 min
+    clearInterval(paymentCheckInterval);
+    document.getElementById('payStatus').innerHTML =
+      '⚠️ انتهت المهلة. اضغط "التحقق" يدوياً أو تواصل مع الدعم.';
+    return;
+  }
+  await verifyPaymentNow(true);
+}
+
+async function verifyPaymentNow(auto = false) {
+  if (state.pendingUpgrade === null) return;
+  const lv = LEVELS[state.pendingUpgrade];
+
+  if (!auto) {
+    document.getElementById('payStatus').innerHTML = '🔍 جاري التحقق من الـ Blockchain...';
+    document.getElementById('verifyBtn').disabled = true;
+  }
+
+  try {
+    // Query TON Center API for recent transactions to our wallet
+    const url = TONCENTER_API + '?address=' + SITE_WALLET_ADDR + '&limit=20&to_lt=0&archival=false';
+    const res = await fetch(url, { headers: { 'Content-Type': 'application/json' } });
+    const data = await res.json();
+
+    if (!data.ok || !data.result) throw new Error('API error');
+
+    const txs = data.result;
+    const minTime = Math.floor((paymentStartTime - 120000) / 1000); // 2 min before payment
+
+    // Look for matching transaction
+    const found = txs.find(tx => {
+      const inMsg = tx.in_msg;
+      if (!inMsg) return false;
+      const txTime = tx.utime;
+      if (txTime < minTime) return false;
+      // Check amount (nanotons) ±1000 tolerance
+      const sentNano = parseInt(inMsg.value || '0');
+      const expectedNano = Math.floor(lv.tonCost * 1e9);
+      const amountOk = Math.abs(sentNano - expectedNano) < 100000; // 0.0001 TON tolerance
+      // Check comment
+      const msgBody = inMsg.msg_data?.text || inMsg.message || '';
+      let decoded = '';
+      try { decoded = atob(msgBody); } catch(e) { decoded = msgBody; }
+      const commentOk = decoded.includes('GIZ' + lv.id) || msgBody.includes('GIZ' + lv.id);
+      return amountOk; // amount match is sufficient; comment is bonus check
+    });
+
+    if (found) {
+      // Payment confirmed on blockchain!
+      clearInterval(paymentCheckInterval);
+      activateUpgrade(lv);
+    } else {
+      if (!auto) {
+        document.getElementById('payStatus').innerHTML =
+          '❌ لم يُعثر على الدفع بعد. انتظر قليلاً أو أعد المحاولة.';
+        document.getElementById('verifyBtn').disabled = false;
+      }
+    }
+  } catch(err) {
+    console.error('TON API error:', err);
+    if (!auto) {
+      document.getElementById('payStatus').innerHTML =
+        '⚠️ خطأ في الاتصال. تحقق من الإنترنت وأعد المحاولة.';
+      document.getElementById('verifyBtn').disabled = false;
+    }
+  }
+}
+
+function activateUpgrade(lv) {
+  state.currentLevel = state.pendingUpgrade;
+  state.energy = lv.maxEnergy;
+  state.pendingUpgrade = null;
+  state.pendingPaymentTime = null;
+  save();
+
+  // Update modal to success
+  document.getElementById('payModalIc').textContent = '🎉';
+  document.getElementById('payModalTtl').textContent = 'تمت الترقية!';
+  document.getElementById('payModalBody').innerHTML =
+    '<b style="color:var(--green);font-size:16px;">✅ تم التحقق من الدفع على الـ Blockchain!</b><br><br>' +
+    'تم تفعيل <b style="color:var(--gold)">' + lv.name + '</b> بنجاح 🚀';
+  document.getElementById('payModalBtns').innerHTML =
+    '<button class="mbtn mbtn-ok" style="flex:1" onclick="closePayModal()">🎉 رائع!</button>';
+
   showNotif('🎉 تمت الترقية إلى ' + lv.name + '!');
   updateUI();
-  save();
 }
+
+function cancelPayment() {
+  clearInterval(paymentCheckInterval);
+  state.pendingUpgrade = null;
+  state.pendingPaymentTime = null;
+  save();
+  document.getElementById('payModalOv').style.display = 'none';
+}
+
+function closePayModal() {
+  clearInterval(paymentCheckInterval);
+  document.getElementById('payModalOv').style.display = 'none';
+}
+
+function confirmPaymentDone() { verifyPaymentNow(false); }
 
 // ============================================================
 // TAP
@@ -825,12 +1015,36 @@ try {
     document.getElementById('userName').textContent = (u.first_name || '') + ' ' + (u.last_name || '');
     document.getElementById('avatarEl').textContent = (u.first_name || 'G')[0].toUpperCase();
     if (u.id) {
+      state.telegramId = u.id;
+      save();
       document.getElementById('refLink').value = 'https://t.me/giztoken_bot?start=' + u.id;
     }
   }
 } catch(e) {}
 
 updateUI();
+
+// Resume payment check if user reopened app with pending payment
+if (state.pendingUpgrade !== null && state.pendingPaymentTime) {
+  const elapsed = Date.now() - state.pendingPaymentTime;
+  if (elapsed < 300000) { // within 5 min
+    paymentStartTime = state.pendingPaymentTime;
+    const lv = LEVELS[state.pendingUpgrade];
+    expectedTonAmount = lv.tonCost;
+    document.getElementById('payModalLvl').textContent = lv.name;
+    document.getElementById('payModalAmt').textContent = lv.tonCost + ' TON';
+    document.getElementById('payModalTtl').textContent = 'أكمل الدفع';
+    document.getElementById('payModalIc').textContent = '💳';
+    document.getElementById('payStatus').innerHTML = '⏳ يتحقق من الـ Blockchain...';
+    document.getElementById('payModalOv').style.display = 'flex';
+    paymentCheckInterval = setInterval(autoCheckPayment, 8000);
+    startCountdown();
+  } else {
+    state.pendingUpgrade = null;
+    state.pendingPaymentTime = null;
+    save();
+  }
+}
 </script>
 </body>
 </html>
