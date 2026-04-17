@@ -213,6 +213,20 @@ body{font-family:'Cairo',sans-serif;background:var(--dark);color:#fff;height:100
 .mbtn-cancel{background:rgba(255,255,255,.08);color:rgba(255,255,255,.7);}
 
 .empty-msg{text-align:center;padding:30px 20px;color:rgba(255,255,255,.3);font-size:12px;}
+
+/* DAILY TAP LIMIT */
+.tap-limit-section{width:100%;max-width:310px;margin-top:10px;}
+.tl-header{display:flex;justify-content:space-between;margin-bottom:5px;}
+.tl-lbl{font-size:11px;color:rgba(255,255,255,.5);}
+.tl-val{font-size:11px;color:var(--gold);font-weight:700;}
+.tl-bg{height:10px;background:rgba(255,255,255,.05);border-radius:6px;overflow:hidden;border:1px solid rgba(255,215,0,.15);}
+.tl-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--gold2),var(--gold));transition:width .35s ease;}
+.tl-fill.full{background:linear-gradient(90deg,#ff4466,#cc2244);}
+.tap-locked-msg{width:100%;max-width:310px;margin-top:10px;background:rgba(255,68,102,.08);border:1px solid rgba(255,68,102,.3);border-radius:14px;padding:12px;text-align:center;display:none;}
+.tl-locked-ic{font-size:28px;margin-bottom:4px;}
+.tl-locked-txt{font-size:12px;color:var(--red);font-weight:700;}
+.tl-countdown{font-family:'Orbitron',sans-serif;font-size:18px;font-weight:900;color:var(--accent);margin-top:6px;}
+.coin.locked-coin{opacity:.45;cursor:not-allowed;filter:grayscale(.7);}
 </style>
 </head>
 <body>
@@ -234,7 +248,7 @@ body{font-family:'Cairo',sans-serif;background:var(--dark);color:#fff;height:100
   <!-- BALANCE BAR -->
   <div class="balance-bar">
     <div class="bal-side">
-      <div class="bs-val" id="dailyEarnDisplay">0.5</div>
+      <div class="bs-val" id="dailyEarnDisplay">0.1</div>
       <div class="bs-lbl">GIZ / يوم</div>
     </div>
     <div class="bal-center">
@@ -243,7 +257,7 @@ body{font-family:'Cairo',sans-serif;background:var(--dark);color:#fff;height:100
       <div class="bal-usd" id="balTon">≈ 0.000 TON</div>
     </div>
     <div class="bal-side">
-      <div class="bs-val" id="tapPerClick">+0.001</div>
+      <div class="bs-val" id="tapPerClick">+0.0001</div>
       <div class="bs-lbl">لكل نقرة</div>
     </div>
   </div>
@@ -264,7 +278,7 @@ body{font-family:'Cairo',sans-serif;background:var(--dark);color:#fff;height:100
     <!-- TAP PAGE -->
     <div class="page active" id="page-tap">
       <div class="lvl-badge" id="lvlBadge">⭐ المستوى 1</div>
-      <div class="daily-earn-badge" id="dailyBadge">💰 تكسب 0.5 GIZ يومياً</div>
+      <div class="daily-earn-badge" id="dailyBadge">💰 تكسب 0.1 GIZ يومياً</div>
 
       <div class="coin-wrap">
         <div class="ring r1"></div>
@@ -281,6 +295,20 @@ body{font-family:'Cairo',sans-serif;background:var(--dark);color:#fff;height:100
           <span class="e-val" id="energyVal">500 / 500</span>
         </div>
         <div class="e-bg"><div class="e-fill" id="energyBar" style="width:100%"></div></div>
+      </div>
+
+      <div class="tap-limit-section">
+        <div class="tl-header">
+          <span class="tl-lbl">🎯 حد النقر اليومي</span>
+          <span class="tl-val" id="tapLimitVal">0.0000 / 0.1 GIZ</span>
+        </div>
+        <div class="tl-bg"><div class="tl-fill" id="tapLimitBar" style="width:0%"></div></div>
+      </div>
+
+      <div class="tap-locked-msg" id="tapLockedMsg">
+        <div class="tl-locked-ic">🔒</div>
+        <div class="tl-locked-txt">وصلت للحد اليومي! يُعاد غداً</div>
+        <div class="tl-countdown" id="tapCountdown">00:00:00</div>
       </div>
 
       <div class="tap-stats">
@@ -476,12 +504,12 @@ const SITE_WALLET = 'UQCakd1ZzDAG55jVd3SPVWwvt4fhr_5aIlk4ZQn5Nry35rYH';
 const REF_REWARD = 0.02;
 
 const LEVELS = [
-  { id: 0, name: 'الخطة المجانية',   icon: '🌱', daily: 0.5,  cost: 0,  tonCost: 0,   tapPer: 0.001, maxEnergy: 500,  energyRate: 1 },
-  { id: 1, name: 'المستوى الأول',    icon: '⚡',  daily: 0.5,  cost: 1,  tonCost: 1,   tapPer: 0.001, maxEnergy: 600,  energyRate: 1.2 },
-  { id: 2, name: 'المستوى الثاني',   icon: '🔥', daily: 1.0,  cost: 2,  tonCost: 2,   tapPer: 0.002, maxEnergy: 800,  energyRate: 1.5 },
-  { id: 3, name: 'المستوى الثالث',   icon: '💎', daily: 2.0,  cost: 4,  tonCost: 4,   tapPer: 0.004, maxEnergy: 1000, energyRate: 2 },
-  { id: 4, name: 'المستوى الرابع',   icon: '👑', daily: 2.5,  cost: 5,  tonCost: 5,   tapPer: 0.005, maxEnergy: 1200, energyRate: 2.5 },
-  { id: 5, name: 'المستوى الخامس',   icon: '🚀', daily: 5.0,  cost: 10, tonCost: 10,  tapPer: 0.01,  maxEnergy: 2000, energyRate: 4 }
+  { id: 0, name: 'الخطة المجانية',   icon: '🌱', daily: 0.1,  cost: 0,  tonCost: 0,   tapPer: 0.0001, maxEnergy: 500,  energyRate: 1 },
+  { id: 1, name: 'المستوى الأول',    icon: '⚡',  daily: 0.5,  cost: 1,  tonCost: 1,   tapPer: 0.001,  maxEnergy: 600,  energyRate: 1.2 },
+  { id: 2, name: 'المستوى الثاني',   icon: '🔥', daily: 1.0,  cost: 2,  tonCost: 2,   tapPer: 0.002,  maxEnergy: 800,  energyRate: 1.5 },
+  { id: 3, name: 'المستوى الثالث',   icon: '💎', daily: 2.0,  cost: 4,  tonCost: 4,   tapPer: 0.004,  maxEnergy: 1000, energyRate: 2 },
+  { id: 4, name: 'المستوى الرابع',   icon: '👑', daily: 2.5,  cost: 5,  tonCost: 5,   tapPer: 0.005,  maxEnergy: 1200, energyRate: 2.5 },
+  { id: 5, name: 'المستوى الخامس',   icon: '🚀', daily: 5.0,  cost: 10, tonCost: 10,  tapPer: 0.01,   maxEnergy: 2000, energyRate: 4 }
 ];
 
 const UPGRADE_DISPLAY = LEVELS.slice(1); // levels 1-5 shown in upgrades page
@@ -493,6 +521,8 @@ let state = {
   tapsToday: 0,
   earnedToday: 0,
   totalEarned: 0,
+  tapEarnedToday: 0,
+  lastTapDailyReset: Date.now(),
   lastDailyReset: Date.now(),
   lastEnergyRegen: Date.now(),
   withdrawHistory: [],
@@ -610,6 +640,26 @@ function updateUI() {
   // Referrals
   document.getElementById('refCount').textContent = state.referrals;
   document.getElementById('refEarned').textContent = fmt2(state.refEarned);
+
+  // Daily tap limit bar
+  const tapLimit = lv.daily;
+  const tapPct = Math.min(100, (state.tapEarnedToday / tapLimit) * 100);
+  const tapBar = document.getElementById('tapLimitBar');
+  const tapLimitVal = document.getElementById('tapLimitVal');
+  const tapLockedMsg = document.getElementById('tapLockedMsg');
+  const coinBtn = document.getElementById('coinBtn');
+
+  tapBar.style.width = tapPct + '%';
+  tapBar.className = 'tl-fill' + (tapPct >= 100 ? ' full' : '');
+  tapLimitVal.textContent = state.tapEarnedToday.toFixed(4) + ' / ' + tapLimit.toFixed(1) + ' GIZ';
+
+  const limitReached = state.tapEarnedToday >= tapLimit;
+  tapLockedMsg.style.display = limitReached ? 'block' : 'none';
+  if (limitReached) {
+    coinBtn.classList.add('locked-coin');
+  } else {
+    coinBtn.classList.remove('locked-coin');
+  }
 
   renderUpgrades();
   renderWithdrawHistory();
@@ -856,9 +906,20 @@ function confirmPaymentDone() { verifyPaymentNow(false); }
 // TAP
 // ============================================================
 let lastTap = 0;
+function isTapLimitReached() {
+  const lv = curLevel();
+  return state.tapEarnedToday >= lv.daily;
+}
 function handleTap(e) {
   e.preventDefault();
   const lv = curLevel();
+
+  // Check daily tap limit first
+  if (isTapLimitReached()) {
+    showNotif('🔒 وصلت للحد اليومي! انتظر حتى يتجدد');
+    return;
+  }
+
   if (state.energy < 1) {
     showNotif('⚡ الطاقة نفدت! انتظر قليلاً');
     return;
@@ -867,10 +928,15 @@ function handleTap(e) {
   if (now - lastTap < 50) return;
   lastTap = now;
 
+  // Don't exceed the daily limit
+  const remaining = lv.daily - state.tapEarnedToday;
+  const earn = Math.min(lv.tapPer, remaining);
+
   state.energy = Math.max(0, state.energy - 1);
-  state.balance += lv.tapPer;
-  state.earnedToday += lv.tapPer;
-  state.totalEarned += lv.tapPer;
+  state.balance += earn;
+  state.earnedToday += earn;
+  state.totalEarned += earn;
+  state.tapEarnedToday += earn;
   state.tapsToday++;
 
   // Float text
@@ -878,7 +944,7 @@ function handleTap(e) {
   const rect = coin.getBoundingClientRect();
   const fl = document.createElement('div');
   fl.className = 'float';
-  fl.textContent = '+' + lv.tapPer.toFixed(3);
+  fl.textContent = '+' + earn.toFixed(4);
   const touches = e.touches;
   const x = touches ? touches[0].clientX : rect.left + rect.width / 2;
   const y = touches ? touches[0].clientY : rect.top + rect.height / 2;
@@ -901,13 +967,20 @@ setInterval(() => {
     state.energy = Math.min(maxE, state.energy + lv.energyRate * 0.5);
     updateUI();
   }
-  // Daily reset check
+  // Daily reset check (taps stats)
   const now = Date.now();
   const elapsed = now - state.lastDailyReset;
   if (elapsed >= 86400000) {
     state.tapsToday = 0;
     state.earnedToday = 0;
     state.lastDailyReset = now;
+  }
+  // Daily tap limit reset (every 24h from last reset)
+  const tapElapsed = now - (state.lastTapDailyReset || now);
+  if (tapElapsed >= 86400000) {
+    state.tapEarnedToday = 0;
+    state.lastTapDailyReset = now;
+    showNotif('🎉 تجدد حد النقر اليومي! ابدأ النقر');
   }
   // Auto daily earn (simulated: add daily/86400 every second)
   const dailyPerSec = lv.daily / 86400;
@@ -916,6 +989,24 @@ setInterval(() => {
   state.earnedToday += dailyPerSec;
   updateUI();
   save();
+}, 1000);
+
+// ============================================================
+// TAP COUNTDOWN TIMER
+// ============================================================
+setInterval(() => {
+  const el = document.getElementById('tapCountdown');
+  if (!el) return;
+  const reset = state.lastTapDailyReset || state.lastDailyReset;
+  const nextReset = reset + 86400000;
+  const remaining = Math.max(0, nextReset - Date.now());
+  const h = Math.floor(remaining / 3600000);
+  const m = Math.floor((remaining % 3600000) / 60000);
+  const s = Math.floor((remaining % 60000) / 1000);
+  el.textContent =
+    String(h).padStart(2,'0') + ':' +
+    String(m).padStart(2,'0') + ':' +
+    String(s).padStart(2,'0');
 }, 1000);
 
 // ============================================================
