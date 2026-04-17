@@ -266,6 +266,171 @@ body{font-family:'Cairo',sans-serif;background:var(--dark);color:#fff;height:100
   <div class="withdraw-progress">
     <div class="wp-top">
       <span class="wp-lbl">🎯 حتى السحب المجاني</span>
+      <span class="wp-val" id="wpValText">0.page-sub{font-size:11px;color:rgba(255,255,255,.4);text-align:center;margin-bottom:14px;}
+.current-plan-card{background:linear-gradient(135deg,rgba(255,215,0,.1),rgba(255,165,0,.05));border:2px solid rgba(255,215,0,.35);border-radius:18px;padding:14px;margin-bottom:16px;display:flex;align-items:center;gap:12px;}
+.cp-icon{font-size:36px;}
+.cp-info{flex:1;}
+.cp-name{font-size:14px;font-weight:900;color:var(--gold);}
+.cp-earn{font-size:12px;color:rgba(255,255,255,.6);margin-top:2px;}
+.cp-badge{background:rgba(255,215,0,.15);border:1px solid rgba(255,215,0,.4);border-radius:10px;padding:3px 10px;font-size:10px;color:var(--gold);font-weight:700;}
+
+.up-grid{display:flex;flex-direction:column;gap:9px;}
+.up-card{background:linear-gradient(135deg,rgba(20,20,40,.85),rgba(26,26,46,.85));border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:13px;display:flex;align-items:center;gap:11px;transition:.2s;}
+.up-card.current{border-color:rgba(255,215,0,.5);background:linear-gradient(135deg,rgba(255,215,0,.08),rgba(255,165,0,.04));}
+.up-card.locked{opacity:.6;}
+.up-ico{width:50px;height:50px;border-radius:14px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:26px;}
+.ic-lv1{background:linear-gradient(135deg,#374151,#1f2937);}
+.ic-lv2{background:linear-gradient(135deg,#0ea5e9,#0284c7);}
+.ic-lv3{background:linear-gradient(135deg,#8b5cf6,#7c3aed);}
+.ic-lv4{background:linear-gradient(135deg,#f59e0b,#d97706);}
+.ic-lv5{background:linear-gradient(135deg,#ef4444,#dc2626);}
+.up-info{flex:1;min-width:0;}
+.up-name{font-size:13px;font-weight:700;}
+.up-earn{font-size:11px;color:var(--green);font-weight:700;margin-top:2px;}
+.up-desc{font-size:10px;color:rgba(255,255,255,.4);margin-top:2px;}
+.up-btn{background:linear-gradient(135deg,#0088cc,#006699);border:none;border-radius:11px;padding:9px 13px;color:#fff;font-weight:900;font-size:11px;cursor:pointer;font-family:'Cairo',sans-serif;flex-shrink:0;transition:.2s;white-space:nowrap;line-height:1.3;text-align:center;}
+.up-btn:active{transform:scale(.94);}
+.up-btn:disabled{background:rgba(255,255,255,.08);color:rgba(255,255,255,.25);cursor:not-allowed;}
+.up-btn.current-btn{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;cursor:default;}
+
+/* WITHDRAW PAGE */
+.withdraw-hero{background:linear-gradient(135deg,rgba(0,255,136,.1),rgba(0,204,102,.05));border:2px solid rgba(0,255,136,.3);border-radius:20px;padding:18px;text-align:center;margin-top:16px;margin-bottom:14px;}
+.wh-em{font-size:44px;margin-bottom:6px;}
+.wh-ttl{font-size:17px;font-weight:900;color:var(--green);}
+.wh-sub{font-size:11px;color:rgba(255,255,255,.55);margin-top:3px;}
+.withdraw-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:14px;}
+.wi-box{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:13px;text-align:center;}
+.wi-num{font-size:20px;font-weight:900;}
+.wi-lbl{font-size:10px;color:rgba(255,255,255,.45);margin-top:3px;}
+.wi-num.green{color:var(--green);}
+.wi-num.gold{color:var(--gold);}
+.wi-num.ton{color:var(--ton);}
+
+.progress-section{background:rgba(0,255,136,.05);border:1px solid rgba(0,255,136,.2);border-radius:16px;padding:14px;margin-bottom:14px;}
+.ps-header{display:flex;justify-content:space-between;margin-bottom:8px;}
+.ps-ttl{font-size:12px;font-weight:700;color:var(--green);}
+.ps-val{font-size:12px;color:var(--gold);font-weight:700;}
+.ps-bar{height:16px;background:rgba(255,255,255,.06);border-radius:8px;overflow:hidden;margin-bottom:6px;}
+.ps-fill{height:100%;border-radius:8px;background:linear-gradient(90deg,#00cc66,var(--green));transition:width .4s ease;display:flex;align-items:center;justify-content:flex-end;padding-right:6px;}
+.ps-pct{font-size:9px;font-weight:700;color:#000;}
+.ps-note{font-size:10px;color:rgba(255,255,255,.5);text-align:center;}
+
+.wallet-section{background:rgba(0,136,204,.07);border:1px solid rgba(0,136,204,.2);border-radius:16px;padding:14px;margin-bottom:14px;}
+.ws-ttl{font-size:12px;font-weight:700;color:var(--accent);margin-bottom:10px;}
+.ws-inp{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:11px;color:#fff;font-size:12px;font-family:'Cairo',sans-serif;outline:none;direction:ltr;text-align:left;}
+.ws-inp::placeholder{color:rgba(255,255,255,.25);direction:rtl;text-align:right;}
+
+.withdraw-action-btn{width:100%;padding:15px;background:linear-gradient(135deg,var(--green),#00cc66);border:none;border-radius:16px;color:#000;font-size:15px;font-weight:900;cursor:pointer;font-family:'Cairo',sans-serif;transition:.2s;margin-bottom:10px;}
+.withdraw-action-btn:disabled{background:rgba(255,255,255,.08);color:rgba(255,255,255,.3);cursor:not-allowed;}
+.withdraw-action-btn:not(:disabled):active{transform:scale(.97);}
+.free-badge{display:inline-block;background:rgba(0,255,136,.15);border:1px solid rgba(0,255,136,.4);border-radius:12px;padding:3px 12px;font-size:10px;color:var(--green);font-weight:700;margin-bottom:14px;text-align:center;width:100%;}
+
+.withdraw-history-ttl{font-size:13px;font-weight:700;margin-bottom:9px;color:rgba(255,255,255,.7);}
+.wh-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05);}
+.wh-ic{width:36px;height:36px;border-radius:50%;background:rgba(0,255,136,.1);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.wh-info{flex:1;}
+.wh-addr{font-size:11px;color:rgba(255,255,255,.6);direction:ltr;text-align:left;}
+.wh-date{font-size:9px;color:rgba(255,255,255,.35);}
+.wh-amount{font-size:13px;color:var(--green);font-weight:700;}
+
+/* REFERRAL */
+.ref-hero{background:linear-gradient(135deg,rgba(124,58,237,.18),rgba(0,212,255,.08));border:1px solid rgba(124,58,237,.28);border-radius:20px;padding:18px;text-align:center;margin-top:16px;margin-bottom:14px;}
+.ref-em{font-size:44px;margin-bottom:6px;}
+.ref-ttl{font-size:17px;font-weight:900;color:var(--gold);}
+.ref-sub{font-size:11px;color:rgba(255,255,255,.55);margin-top:3px;}
+.ref-stats{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:14px;}
+.rs-box{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:13px;text-align:center;}
+.rs-num{font-size:22px;font-weight:900;color:var(--gold);}
+.rs-lbl{font-size:10px;color:rgba(255,255,255,.45);}
+.link-box{background:rgba(0,212,255,.05);border:1px solid rgba(0,212,255,.18);border-radius:14px;padding:13px;margin-bottom:10px;}
+.link-lbl{font-size:10px;color:rgba(255,255,255,.45);margin-bottom:5px;}
+.link-row{display:flex;gap:7px;}
+.link-inp{flex:1;background:rgba(255,255,255,.05);border:none;border-radius:10px;padding:9px;color:var(--accent);font-size:11px;font-family:'Cairo',sans-serif;outline:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:default;}
+.copy-btn{background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:10px;padding:9px 14px;color:#fff;font-weight:700;font-size:11px;cursor:pointer;font-family:'Cairo',sans-serif;transition:.2s;white-space:nowrap;}
+.copy-btn:active{transform:scale(.95);}
+.share-btn{width:100%;padding:13px;background:linear-gradient(135deg,var(--purple),#5b21b6);border:none;border-radius:14px;color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:'Cairo',sans-serif;transition:.2s;margin-bottom:14px;}
+.share-btn:active{transform:scale(.97);}
+
+/* NAVBAR */
+.navbar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:rgba(8,8,16,.97);backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,.07);display:flex;padding:8px 0 max(8px,env(safe-area-inset-bottom));z-index:100;}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:4px;cursor:pointer;transition:.2s;}
+.nav-ic{font-size:22px;transition:transform .2s;}
+.nav-lb{font-size:9px;color:rgba(255,255,255,.35);transition:color .2s;}
+.nav-item.active .nav-lb{color:var(--gold);}
+.nav-item.active .nav-ic{transform:scale(1.2);}
+.nav-item:active{transform:scale(.93);}
+
+/* NOTIF */
+.notif{position:fixed;top:18px;left:50%;transform:translateX(-50%);background:rgba(0,255,136,.13);border:1px solid rgba(0,255,136,.4);border-radius:20px;padding:9px 20px;font-size:12px;color:var(--green);font-weight:700;z-index:9999;animation:ni .3s ease;white-space:nowrap;}
+@keyframes ni{from{opacity:0;transform:translateX(-50%) translateY(-18px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+
+/* MODAL */
+.modal-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:500;align-items:center;justify-content:center;padding:20px;}
+.modal-ov.open{display:flex;}
+.modal{background:linear-gradient(135deg,#12121a,#1a1a2e);border:1px solid rgba(255,215,0,.22);border-radius:24px;padding:24px;width:100%;max-width:340px;text-align:center;}
+.modal-ic{font-size:46px;margin-bottom:10px;}
+.modal-ttl{font-size:19px;font-weight:900;color:var(--gold);margin-bottom:6px;}
+.modal-txt{font-size:12px;color:rgba(255,255,255,.6);line-height:1.6;margin-bottom:18px;}
+.modal-btns{display:flex;gap:8px;}
+.mbtn{flex:1;padding:12px;border:none;border-radius:13px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Cairo',sans-serif;transition:.2s;}
+.mbtn:active{transform:scale(.96);}
+.mbtn-ok{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;}
+.mbtn-cancel{background:rgba(255,255,255,.08);color:rgba(255,255,255,.7);}
+
+.empty-msg{text-align:center;padding:30px 20px;color:rgba(255,255,255,.3);font-size:12px;}
+
+/* DAILY TAP LIMIT */
+.tap-limit-section{width:100%;max-width:310px;margin-top:10px;}
+.tl-header{display:flex;justify-content:space-between;margin-bottom:5px;}
+.tl-lbl{font-size:11px;color:rgba(255,255,255,.5);}
+.tl-val{font-size:11px;color:var(--gold);font-weight:700;}
+.tl-bg{height:10px;background:rgba(255,255,255,.05);border-radius:6px;overflow:hidden;border:1px solid rgba(255,215,0,.15);}
+.tl-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--gold2),var(--gold));transition:width .35s ease;}
+.tl-fill.full{background:linear-gradient(90deg,#ff4466,#cc2244);}
+.tap-locked-msg{width:100%;max-width:310px;margin-top:10px;background:rgba(255,68,102,.08);border:1px solid rgba(255,68,102,.3);border-radius:14px;padding:12px;text-align:center;display:none;}
+.tl-locked-ic{font-size:28px;margin-bottom:4px;}
+.tl-locked-txt{font-size:12px;color:var(--red);font-weight:700;}
+.tl-countdown{font-family:'Orbitron',sans-serif;font-size:18px;font-weight:900;color:var(--accent);margin-top:6px;}
+.coin.locked-coin{opacity:.45;cursor:not-allowed;filter:grayscale(.7);}
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="app">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="user-row">
+      <div class="avatar" id="avatarEl">G</div>
+      <div>
+        <div class="u-name" id="userName">GIZ Player</div>
+        <div class="u-lvl" id="userLvl">⭐ المستوى 1 - مبتدئ</div>
+      </div>
+    </div>
+    <button class="wallet-btn" id="walletBtn" onclick="goToWithdraw()">💎 السحب</button>
+  </div>
+
+  <!-- BALANCE BAR -->
+  <div class="balance-bar">
+    <div class="bal-side">
+      <div class="bs-val" id="dailyEarnDisplay">0.1</div>
+      <div class="bs-lbl">GIZ / يوم</div>
+    </div>
+    <div class="bal-center">
+      <div class="bal-lbl">رصيد GIZ</div>
+      <div class="bal-num" id="balNum">0.000</div>
+      <div class="bal-usd" id="balTon">≈ 0.000 TON</div>
+    </div>
+    <div class="bal-side">
+      <div class="bs-val" id="tapPerClick">+0.0001</div>
+      <div class="bs-lbl">لكل نقرة</div>
+    </div>
+  </div>
+
+  <!-- WITHDRAW PROGRESS -->
+  <div class="withdraw-progress">
+    <div class="wp-top">
+      <span class="wp-lbl">🎯 حتى السحب المجاني</span>
       <span class="wp-val" id="wpValText">0 / 5 GIZ</span>
     </div>
     <div class="wp-bar"><div class="wp-fill" id="wpFill" style="width:0%"></div></div>
